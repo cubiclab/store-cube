@@ -25,9 +25,12 @@ class m200809_000001_init_catalog_tables extends Migration
         // Products table
         $this->createTable('{{%products}}', [
             'id'           => Schema::TYPE_PK,
+            'article'      => Schema::TYPE_STRING . '(64) NOT NULL',
             'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
+            'short_desc'  => Schema::TYPE_TEXT    . ' NULL DEFAULT NULL' ,
             'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL'
         ], $tableOptions);
+        $this->createIndex('article', '{{%products}}', 'article', true);
 
         // Category_Product table (Connection)
         $this->createTable('{{%category_product}}', [
