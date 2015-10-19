@@ -43,7 +43,7 @@ class m200809_000002_init_parameters_tables extends Migration
         $this->createIndex('product_id', '{{%parameters_values}}', 'product_id', false);
         $this->createIndex('param_id', '{{%parameters_values}}', 'param_id', false);
         $this->addForeignKey('FK_parameters_values', '{{%parameters_values}}', 'param_id', '{{%parameters}}', 'id', 'CASCADE', 'CASCADE');
-
+        $this->addForeignKey('FK_parameters_product', '{{%parameters_values}}', 'product_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
