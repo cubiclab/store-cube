@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\controllers;
 
+use cubiclab\store\models\Categories;
 use cubiclab\store\models\Parameters;
 use cubiclab\store\models\ParametersValues;
 use Yii;
@@ -69,8 +70,12 @@ class ProductsController extends Controller
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
-
         $param_values = new ParametersValues();
+
+        //категории
+        $categories = new Categories();
+        $categories = $categories->find()->all();
+        //$param_values = new ParametersValues();
 
         if ($product->load(Yii::$app->request->post())){
             if ($product->validate()) {
