@@ -7,13 +7,13 @@ use yii\base\BootstrapInterface;
 /**
  * @version 0.0.1-prealpha
  */
-class StoreCube extends \yii\base\Module implements BootstrapInterface
+class StoreCube extends \yii\base\Module //implements BootstrapInterface
 {
     /** @const VERSION Module version */
     const VERSION = "0.0.1-prealpha";
 
     public static $menu =
-        ['label' => 'Store', 'icon' => 'fa-cart', 'items' => [
+        ['label' => 'Store', 'icon' => 'fa-shopping-cart', 'items' => [
             ['label' => 'All users', 'url' => ['/admin/store']],
         ]];
 
