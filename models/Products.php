@@ -31,9 +31,10 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['description'], 'string'],
-            [['name'], 'string', 'max' => 64]
+            [['name', 'article'], 'required'],
+            [['short_desc','description'], 'string'],
+            [['name'], 'string', 'max' => 64],
+            [['price'], 'integer']
         ];
     }
 
@@ -43,9 +44,12 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
+            'id' => 'ATTR_ID',
+            'article' => 'ATTR_ARTICLE',
+            'name' => 'ATTR_NAME',
+            'short_desc' => 'ATTR_SHORT_DESC',
+            'description' => 'ATTR_DESCRIPTION',
+            'price' => 'ATTR_PRICE',
         ];
     }
 

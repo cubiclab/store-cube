@@ -2,9 +2,6 @@
 
 namespace cubiclab\store\controllers;
 
-use cubiclab\store\models\Categories;
-use cubiclab\store\models\Parameters;
-use cubiclab\store\models\ParametersValues;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,6 +9,11 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+
+use cubiclab\store\models\Categories;
+use cubiclab\store\models\Parameters;
+use cubiclab\store\models\ParametersRange;
+use cubiclab\store\models\ParametersValues;
 
 use cubiclab\store\models\Products;
 use cubiclab\store\models\ProductsSearch;
@@ -70,25 +72,50 @@ class ProductsController extends Controller
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
-        $param_values = new ParametersValues();
+        $param_values = '';//new ParametersValues();
 
         //категории
         $categories = new Categories();
         $categories = $categories->find()->all();
         //$param_values = new ParametersValues();
 
-        if ($product->load(Yii::$app->request->post())){
+        if ($product->load(Yii::$app->request->post())) {
             if ($product->validate()) {
                 if ($product->save(false)) {
 
                     //сохраняем параметры
-                    foreach(Yii::$app->request->post('ParametersValues') as $parameter_key => $parameter_value)
-                    {
-                        $new_parameter_value = new ParametersValues();
-                        $new_parameter_value->param_id = $parameter_key;
-                        $new_parameter_value->product_id = $product->id;
-                        $new_parameter_value->param_value = $parameter_value;
-                        $new_parameter_value->save();
+                    foreach (Yii::$app->request->post('ParametersValues') as $parameter_key => $parameter_value) {
+                        if ($parameter_value) {
+                            $parameter_name = Parameters::findOne($parameter_key);
+                            switch ($parameter_name->is_range) {
+                                case ParametersRange::RANGE_SINGLE;
+                                    $new_parameter_value = new ParametersValues();
+                                    $new_parameter_value->param_id = $parameter_key;
+                                    $new_parameter_value->product_id = $product->id;
+                                    $new_parameter_value->range_id = $range_id;
+                                    $new_parameter_value->param_value = "";
+                                    $new_parameter_value->save();
+                                    break;
+
+                                case ParametersRange::RANGE_MULTIPLY;
+                                    foreach ($parameter_value as $range_key => $range_id) {
+                                        $new_parameter_value = new ParametersValues();
+                                        $new_parameter_value->param_id = $parameter_key;
+                                        $new_parameter_value->product_id = $product->id;
+                                        $new_parameter_value->range_id = $range_id;
+                                        $new_parameter_value->param_value = "";
+                                        $new_parameter_value->save();
+                                    }
+
+                                default: //Parameters::RANGE_NULL;
+                                    $new_parameter_value = new ParametersValues();
+                                    $new_parameter_value->param_id = $parameter_key;
+                                    $new_parameter_value->product_id = $product->id;
+                                    $new_parameter_value->param_value = $parameter_value;
+                                    $new_parameter_value->save();
+                                    break;
+                            }
+                        }
                     }
 
                     Yii::$app->session->setFlash('success', Yii::t('storecube', 'PRODUCT_CREATE_SUCCESS'));
@@ -123,8 +150,10 @@ class ProductsController extends Controller
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
+        //значения параметров
+        $param_values = ParametersValues::findAll(['product_id' => $id]);
 
-        $param_values = new ParametersValues();
+
 
 
         if ($product->load(Yii::$app->request->post()) && $product->save()) {

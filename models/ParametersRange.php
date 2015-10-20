@@ -16,6 +16,11 @@ use Yii;
  */
 class ParametersRange extends \yii\db\ActiveRecord
 {
+    //range types
+    const RANGE_MULTIPLY = 'M';
+    const RANGE_SINGLE   = 'S';
+    const RANGE_NULL     = 'N';
+
     /**
      * @inheritdoc
      */

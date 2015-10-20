@@ -46,6 +46,7 @@ class m200809_000002_init_parameters_tables extends Migration
             'id'           => Schema::TYPE_PK,
             'product_id'   => Schema::TYPE_INTEGER . ' NOT NULL',
             'param_id'     => Schema::TYPE_INTEGER . ' NOT NULL',
+            'range_id'     => Schema::TYPE_INTEGER,
             'param_value'  => Schema::TYPE_TEXT . ' NOT NULL',
         ], $tableOptions);
         $this->createIndex('product_id', '{{%parameters_values}}', 'product_id', false);

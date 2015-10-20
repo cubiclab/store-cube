@@ -31,8 +31,8 @@ class ParametersValues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'param_id', 'param_value'], 'required'],
-            [['product_id', 'param_id'], 'integer'],
+            [['product_id', 'param_id'], 'required'],
+            [['product_id', 'param_id', 'range_id'], 'integer'],
             [['param_value'], 'string']
         ];
     }

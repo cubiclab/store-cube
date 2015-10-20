@@ -12,6 +12,7 @@ use Yii;
  * @property string $description
  * @property string $units
  * @property integer $digit
+ * @property string $is_range
  * @property string $icon
  *
  * @property ParametersRange[] $parametersRanges
