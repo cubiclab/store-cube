@@ -27,6 +27,7 @@ class ProductHelper
                     if ($param_value->param_id === $param_name->id) {
                         //ловим какой параметр уже заполнен (редактирование)
                         $param_obj = $param_value;
+                        break;
                     } else {
                         //если параметр не был заполнен
                         $param_obj = new ParametersValues();
@@ -50,7 +51,7 @@ class ProductHelper
                     // TODO: как то hasmany должен работать. хз как
                     $range = ArrayHelper::map(ParametersRange::findAll(['param_id' => $param_name->id]), 'id', 'name');
 
-                    //все отмеченный позиции
+                    //все отмеченные позиции
                     if (is_array($param_values)) { //если $param_values массив - то редактирование
                         foreach ($param_values as $param_value) {
                             if ($param_value->param_id === $param_name->id) {
@@ -60,7 +61,7 @@ class ProductHelper
                         $param_obj->param_value = $chacked_list;
                     }
 
-                    //возвращаем Листбокс
+                    //возвращаем чекбоксы
                     $return .= $form->field($param_obj, 'param_value')->checkboxList($range, ['name' => 'ParametersValues[' . $param_name->id . ']'])->label($param_name->name)->hint($param_name->description);
                     break;
 
