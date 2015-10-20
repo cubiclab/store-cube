@@ -53,12 +53,13 @@ class ProductHelper
 
                     //все отмеченные позиции
                     if (is_array($param_values)) { //если $param_values массив - то редактирование
+                        $checked_list = [];
                         foreach ($param_values as $param_value) {
                             if ($param_value->param_id === $param_name->id) {
-                                $chacked_list[] = $param_value->range_id;
+                                $checked_list[] = $param_value->range_id;
                             }
                         }
-                        $param_obj->param_value = $chacked_list;
+                        $param_obj->param_value = $checked_list;
                     }
 
                     //возвращаем чекбоксы
