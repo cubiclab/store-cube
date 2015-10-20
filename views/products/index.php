@@ -2,35 +2,61 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\grid\CheckboxColumn;
+use cubiclab\admin\widgets\Panel;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\ProductsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Products';
+$this->title = Yii::t('storecube', 'PAGE_PRODUCTS');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="products-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<?php
+$gridId = 'products-grid';
 
-    <p>
-        <?= Html::a('Create Products', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+$boxButtons = $actions = [];
+$showActions = false;
+//if (Yii::$app->user->can('ACPCreateUsers')) {
+$boxButtons[] = '{create}';
+//}
+//if (Yii::$app->user->can('ACPUpdateUsers')) {
+$actions[] = '{update}';
+$showActions = $showActions || true;
+//}
+//if (Yii::$app->user->can('ACPDeleteUsers')) {
+$boxButtons[] = '{mass-delete}';
+$actions[] = '{delete}';
+$showActions = $showActions || true;
+//}
+if ($showActions === true) {
+    //$gridConfig['columns'][] = [
+    //    'class' => ActionColumn::className(),
+    //    'template' => implode(' ', $actions)
+    //];
+}
+$boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+<?php Panel::begin(
+    [
+        'title' => $this->title,
+        'buttonsTemplate' => $boxButtons,
+        'grid' => $gridId
+    ]
+); ?>
 
-            'id',
-            'name',
-            'description:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
+<?= GridView::widget([
+    'id' => $gridId,
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        [
+            'class' => CheckboxColumn::classname()
         ],
-    ]); ?>
+        'id',
+        'name',
+        'short_desc:ntext',
 
-</div>
+        ['class' => 'yii\grid\ActionColumn'],
+    ],
+]);
+
+Panel::end();
+?>
