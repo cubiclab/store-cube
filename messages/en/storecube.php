@@ -16,6 +16,7 @@ return [
     'ATTR_PRICE'             => 'Price',
 
     'PAGE_PRODUCTS'            => 'Products',
+    'PAGE_CREATE_PRODUCT'      => 'Create product',
     'PAGE_UPDATE_PRODUCT'      => 'Change product:',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Product successfully created.',

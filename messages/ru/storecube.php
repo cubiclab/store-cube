@@ -16,6 +16,7 @@ return [
     'ATTR_PRICE'             => 'Цена',
 
     'PAGE_PRODUCTS'            => 'Товары',
+    'PAGE_CREATE_PRODUCT'      => 'Создание товара',
     'PAGE_UPDATE_PRODUCT'      => 'Изменение товара:',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Товарная позиция успешно создана.',
