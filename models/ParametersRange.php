@@ -57,4 +57,5 @@ class ParametersRange extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Parameters::className(), ['id' => 'param_id']);
     }
+
 }

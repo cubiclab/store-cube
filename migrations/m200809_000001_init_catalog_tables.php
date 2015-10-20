@@ -21,14 +21,15 @@ class m200809_000001_init_catalog_tables extends Migration
             'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL'
         ], $tableOptions);
         $this->createIndex('parent', '{{%categories}}', 'parent', false);
-
+		
         // Products table
         $this->createTable('{{%products}}', [
             'id'           => Schema::TYPE_PK,
             'article'      => Schema::TYPE_STRING . '(64) NOT NULL',
             'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
-            'short_desc'  => Schema::TYPE_TEXT    . ' NULL DEFAULT NULL' ,
-            'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL'
+            'short_desc'   => Schema::TYPE_TEXT    . ' NULL DEFAULT NULL',
+            'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL',
+			'price'		   => Schema::TYPE_DECIMAL   . '(10, 2) NULL DEFAULT NULL'
         ], $tableOptions);
         $this->createIndex('article', '{{%products}}', 'article', true);
 
