@@ -153,11 +153,59 @@ class ProductsController extends Controller
         //значения параметров
         $param_values = ParametersValues::findAll(['product_id' => $id]);
 
+        if ($product->load(Yii::$app->request->post())) {
+            if ($product->validate()) {
+                if ($product->save(false)) {
+                    foreach($param_values as $param_value){
+                        $param_value->delete();
+                    }
 
+                    //сохраняем параметры
+                    foreach (Yii::$app->request->post('ParametersValues') as $parameter_key => $parameter_value) {
+                        if ($parameter_value) {
+                            $parameter_name = Parameters::findOne($parameter_key);
+                            switch ($parameter_name->is_range) {
+                                case ParametersRange::RANGE_SINGLE;
+                                    $new_parameter_value = new ParametersValues();
+                                    $new_parameter_value->param_id = $parameter_key;
+                                    $new_parameter_value->product_id = $product->id;
+                                    $new_parameter_value->range_id = $range_id;
+                                    $new_parameter_value->param_value = "";
+                                    $new_parameter_value->save();
+                                    break;
 
+                                case ParametersRange::RANGE_MULTIPLY;
+                                    foreach ($parameter_value as $range_key => $range_id) {
+                                        $new_parameter_value = new ParametersValues();
+                                        $new_parameter_value->param_id = $parameter_key;
+                                        $new_parameter_value->product_id = $product->id;
+                                        $new_parameter_value->range_id = $range_id;
+                                        $new_parameter_value->param_value = "";
+                                        $new_parameter_value->save();
+                                    }
 
-        if ($product->load(Yii::$app->request->post()) && $product->save()) {
-            return $this->redirect(['view', 'id' => $product->id]);
+                                default: //Parameters::RANGE_NULL;
+                                    $new_parameter_value = new ParametersValues();
+                                    $new_parameter_value->param_id = $parameter_key;
+                                    $new_parameter_value->product_id = $product->id;
+                                    $new_parameter_value->param_value = $parameter_value;
+                                    $new_parameter_value->save();
+                                    break;
+                            }
+                        }
+                    }
+
+                    Yii::$app->session->setFlash('success', Yii::t('storecube', 'PRODUCT_CREATE_SUCCESS'));
+                    return $this->redirect(['update', 'id' => $product->id]);
+                } else {
+                    Yii::$app->session->setFlash('danger', Yii::t('storecube', 'PRODUCT_CREATE_FAIL'));
+                    return $this->refresh();
+                }
+            } elseif (Yii::$app->request->isAjax) {
+                // TODO: доделать
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($product);
+            }
         } else {
             return $this->render('update', [
                 'product' => $product,

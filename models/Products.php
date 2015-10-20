@@ -34,7 +34,7 @@ class Products extends \yii\db\ActiveRecord
             [['name', 'article'], 'required'],
             [['short_desc','description'], 'string'],
             [['name'], 'string', 'max' => 64],
-            [['price'], 'integer']
+            [['price'], 'number']
         ];
     }
 
@@ -44,12 +44,12 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ATTR_ID',
-            'article' => 'ATTR_ARTICLE',
-            'name' => 'ATTR_NAME',
-            'short_desc' => 'ATTR_SHORT_DESC',
-            'description' => 'ATTR_DESCRIPTION',
-            'price' => 'ATTR_PRICE',
+            'id'            => Yii::t('storecube', 'ATTR_ID'),
+            'article'       => Yii::t('storecube', 'ATTR_ARTICLE'),
+            'name'          => Yii::t('storecube', 'ATTR_NAME'),
+            'short_desc'    => Yii::t('storecube', 'ATTR_SHORT_DESC'),
+            'description'   => Yii::t('storecube', 'ATTR_DESCRIPTION'),
+            'price'         => Yii::t('storecube', 'ATTR_PRICE'),
         ];
     }
 
