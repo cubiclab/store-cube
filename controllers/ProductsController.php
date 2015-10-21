@@ -3,12 +3,13 @@
 namespace cubiclab\store\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+
+use cubiclab\admin\components\Controller;
 
 use cubiclab\store\models\Categories;
 use cubiclab\store\models\Parameters;
@@ -77,7 +78,6 @@ class ProductsController extends Controller
         //категории
         $categories = new Categories();
         $categories = $categories->find()->all();
-        //$param_values = new ParametersValues();
 
         if ($product->load(Yii::$app->request->post())) {
             if ($product->validate()) {
