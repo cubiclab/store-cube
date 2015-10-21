@@ -14,7 +14,7 @@ class StoreCube extends \yii\base\Module //implements BootstrapInterface
 
     public static $menu =
         ['label' => 'Store', 'icon' => 'fa-shopping-cart', 'items' => [
-            ['label' => 'All users', 'url' => ['/admin/store']],
+            ['label' => 'All Products', 'url' => ['/admin/store/products']],
         ]];
 
     /** @inheritdoc */
