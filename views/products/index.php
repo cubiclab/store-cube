@@ -56,6 +56,10 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
 
         ['class' => 'yii\grid\ActionColumn'],
     ],
+    'pager' => [
+        'firstPageLabel' => 'First',
+        'lastPageLabel' => 'Last',
+    ],
 ]);
 
 Panel::end();

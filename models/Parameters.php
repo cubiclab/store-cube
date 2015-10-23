@@ -20,6 +20,12 @@ use Yii;
  */
 class Parameters extends \yii\db\ActiveRecord
 {
+
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */

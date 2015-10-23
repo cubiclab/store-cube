@@ -3,6 +3,7 @@
 namespace cubiclab\store\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%parameters_values}}".
@@ -17,6 +18,13 @@ use Yii;
  */
 class ParametersValues extends \yii\db\ActiveRecord
 {
+    public $name;
+    public $description;
+    public $units;
+    public $digit;
+    public $is_range;
+    public $icon;
+
     /**
      * @inheritdoc
      */
@@ -66,4 +74,22 @@ class ParametersValues extends \yii\db\ActiveRecord
         return $this->hasOne(Parameters::className(), ['id' => 'param_id']);
     }
 
+    public function getRangesArray()
+    {
+        return ArrayHelper::map(ParametersRange::findAll(['param_id' => $this->id]), 'id', 'name');
+    }
+
+    public function getCheckedArray()
+    {
+        $checked = [];
+        $checked_values = ParametersValues::find()
+            ->select('range_id')
+            ->where(['product_id' => $this->product_id])
+            ->AndWhere(['param_id' => $this->id])
+            ->all();
+        foreach($checked_values as $checked_value){
+            $checked[] = $checked_value->range_id;
+        }
+        return $checked;
+    }
 }

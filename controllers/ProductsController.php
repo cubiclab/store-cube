@@ -147,6 +147,13 @@ class ProductsController extends Controller
     public function actionUpdate($id)
     {
         $product = $this->findModel($id);
+
+
+
+        $test = $product->allParameters;
+
+
+
         $product_image = new ProductsImages();
 
 

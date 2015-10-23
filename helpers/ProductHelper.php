@@ -74,7 +74,48 @@ class ProductHelper
         return $return;
     }
 
-    public static function showImages($product){
+    public static function getParamFields2($form, $product){
+        $return = '';
+
+        $allParams = $product->allParameters;
+        foreach ($allParams as $parameter) {
+
+            switch ($parameter->is_range) {
+                case ParametersRange::RANGE_SINGLE;
+                    $range = $parameter->RangesArray;
+                    $parameter->param_value = $parameter->range_id;
+                    array_unshift($range, '');
+
+                    $return .= $form->field($parameter, 'param_value')
+                        ->dropDownList($range, ['name' => 'ParametersValues[' . $parameter->id . ']'])
+                        ->label($parameter->name)
+                        ->hint($parameter->description);
+                    break;
+
+                case ParametersRange::RANGE_MULTIPLY;
+                    $range = $parameter->rangesArray;
+                    $parameter->param_value = $parameter->checkedArray;
+
+                    $return .= $form->field($parameter, 'param_value')
+                        ->checkboxList($range, ['name' => 'ParametersValues[' . $parameter->id . ']'])
+                        ->label($parameter->name)
+                        ->hint($parameter->description);
+                    break;
+
+                default: //ParametersRange::RANGE_NULL;
+                    $return .= $form->field($parameter, 'param_value')
+                        ->textInput(['name' => 'ParametersValues[' . $parameter->id . ']'])
+                        ->label($parameter->name)
+                        ->hint($parameter->description);
+                    break;
+
+            }
+        }
+
+        return $return;
+    }
+
+    public static function getImages($product){
         $return = [];
         $i=0;
         foreach($product->Images as $image){

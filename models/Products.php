@@ -23,6 +23,8 @@ class Products extends \yii\db\ActiveRecord
 
     private $_images = [];
 
+    private $_parameters = [];
+
     /**
      * @inheritdoc
      */
@@ -128,6 +130,20 @@ class Products extends \yii\db\ActiveRecord
     {
         $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
         return $this->_images;
+    }
+
+    public function getAllParameters()
+    {
+
+        if($this->id) { $id = $this->id; } else { $id = 0; }
+            $this->_parameters = ParametersValues::find()
+                ->select('*')
+                ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . $id)
+                ->where(['a.status' => Parameters::STATUS_ACTIVE])
+                ->orderBy('order')
+                ->all();
+
+        return $this->_parameters;
     }
 
 
