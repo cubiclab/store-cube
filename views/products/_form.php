@@ -1,46 +1,76 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use cubiclab\store\helpers\ProductHelper;
 use kartik\file\FileInput;
-
 ?>
 
 <div class="products-form">
-
-    <?php $form = ActiveForm::begin(['method' => 'POST', 'options' => ['enctype' => 'multipart/form-data']]); ?>
-
-    <?=
-    FileInput::widget([
-        'model' => $product_image,
-        'attribute' => 'image_url[]',
-        'options' => ['multiple' => true],
-        'pluginOptions' => [
-            'initialPreview' => ProductHelper::showImages($product),
-            'initialPreviewShowDelete'=>true,
-            'overwriteInitial'=>false,
-            'previewFileType' => 'any',
-            'uploadUrl' => '/site/file-upload',
+    <?php
+    $form = ActiveForm::begin(['method' => 'POST',
+            'options' => [
+                'enctype' => 'multipart/form-data',
+                'class' => 'form-horizontal'],
+            'fieldConfig' => [
+                'template' => '{label}<div class="col-md-9">{input}{error}</div>',
+                'labelOptions' => ['class' => 'col-md-2 control-label'],
+            ],
         ]
-    ]); ?>
 
-    <?= $form->field($product, 'article')->textInput(['maxlength' => true]) ?>
+    ); ?>
 
-    <?= $form->field($product, 'name')->textInput(['maxlength' => true]) ?>
+    <!-- begin col-6 -->
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#main-info" data-toggle="tab">Основные</a></li>
+            <li class=""><a href="#parameters" data-toggle="tab">Параметры</a></li>
+            <li class=""><a href="#images_upload" data-toggle="tab">Изображения</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="main-info">
+                <br>
 
-    <?= $form->field($product, 'short_desc')->textarea(['rows' => 3]) ?>
+                <?= $form->field($product, 'article')->textInput(['maxlength' => true, 'placeholder' => 'Артикул']) ?>
 
-    <?= $form->field($product, 'description')->textarea(['rows' => 6]) ?>
+                <?= $form->field($product, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Название товара']) ?>
 
-    <?= ProductHelper::getParamFields($form, $param_values, $parameter_names); ?>
+                <?= $form->field($product, 'short_desc')->textarea(['rows' => 3, 'placeholder' => 'Краткое описание товара']) ?>
 
-    <?= $form->field($product, 'price')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($product, 'description')->textarea(['rows' => 8, 'placeholder' => 'Полное описание товара']) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($product->isNewRecord ? Yii::t('admincube', 'BUTTON_CREATE') : Yii::t('admincube', 'BUTTON_UPDATE'), ['class' => $product->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                <?= $form->field($product, 'price')->textInput(['maxlength' => true, 'placeholder' => 'Цена']) ?>
+
+            </div>
+            <div class="tab-pane fade" id="parameters">
+                <br>
+                <?= ProductHelper::getParamFields($form, $param_values, $parameter_names); ?>
+            </div>
+            <div class="tab-pane fade" id="images_upload">
+                <br>
+                <?=
+                FileInput::widget([
+                    'model' => $product_image,
+                    'attribute' => 'image_url[]',
+                    'options' => ['multiple' => true],
+                    'pluginOptions' => [
+                        'initialPreview' => ProductHelper::showImages($product),
+                        'initialPreviewConfig' => ProductHelper::getImagesExtra($product),
+                        'initialPreviewShowDelete' => true,
+                        'overwriteInitial' => false,
+                        //'uploadUrl' => '/site/file-upload',
+                    ]
+                ]); ?>
+                <br>
+            </div>
+        </div>
     </div>
-
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-9">
+            <?= Html::submitButton($product->isNewRecord ? Yii::t('admincube', 'BUTTON_CREATE') : Yii::t('admincube', 'BUTTON_UPDATE'), ['class' => $product->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+    </div>
     <?php ActiveForm::end(); ?>
-
 </div>
+
+

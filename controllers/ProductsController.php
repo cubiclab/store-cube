@@ -68,23 +68,14 @@ class ProductsController extends Controller
      */
     public function actionCreate()
     {
-        //продукт
         $product = new Products();
-        //$product->scenario = 'insert';
-
         $product_image = new ProductsImages();
-        $product_image->scenario = 'insert';
+
 
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
         $param_values = '';//new ParametersValues();
-
-        //категории
-        $categories = new Categories();
-        $categories = $categories->find()->all();
-
-        $post = Yii::$app->request->post();
 
 
         if ($product->load(Yii::$app->request->post()) && $product->load_images(Yii::$app->request->post())){
@@ -156,18 +147,18 @@ class ProductsController extends Controller
     public function actionUpdate($id)
     {
         $product = $this->findModel($id);
+        $product_image = new ProductsImages();
+
+
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
 
-
-        $product_image = new ProductsImages();
-        //$product_image->scenario = 'update';
-
         //значения параметров
         $param_values = ParametersValues::findAll(['product_id' => $id]);
 
-        if ($product->load(Yii::$app->request->post())) {
+
+        if ($product->load(Yii::$app->request->post()) && $product->load_images(Yii::$app->request->post())) {
             if ($product->validate()) {
                 if ($product->save(false)) {
                     foreach ($param_values as $param_value) {

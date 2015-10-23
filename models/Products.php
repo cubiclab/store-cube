@@ -20,9 +20,7 @@ use yii\db\BaseActiveRecord;
  */
 class Products extends \yii\db\ActiveRecord
 {
-    /**
-     * Объекты Image
-     */
+
     private $_images = [];
 
     /**
@@ -40,7 +38,7 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'article'], 'required'],
-            [['short_desc','description'], 'string'],
+            [['short_desc', 'description'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['price'], 'number']
         ];
@@ -52,12 +50,12 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => Yii::t('storecube', 'ATTR_ID'),
-            'article'       => Yii::t('storecube', 'ATTR_ARTICLE'),
-            'name'          => Yii::t('storecube', 'ATTR_NAME'),
-            'short_desc'    => Yii::t('storecube', 'ATTR_SHORT_DESC'),
-            'description'   => Yii::t('storecube', 'ATTR_DESCRIPTION'),
-            'price'         => Yii::t('storecube', 'ATTR_PRICE'),
+            'id' => Yii::t('storecube', 'ATTR_ID'),
+            'article' => Yii::t('storecube', 'ATTR_ARTICLE'),
+            'name' => Yii::t('storecube', 'ATTR_NAME'),
+            'short_desc' => Yii::t('storecube', 'ATTR_SHORT_DESC'),
+            'description' => Yii::t('storecube', 'ATTR_DESCRIPTION'),
+            'price' => Yii::t('storecube', 'ATTR_PRICE'),
         ];
     }
 
@@ -67,14 +65,15 @@ class Products extends \yii\db\ActiveRecord
     }
 
 
-    /** создает объекты Image */
-    public function load_images($data, $formName = null){
-        $product_image =  new ProductsImages();
+    /** пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Image */
+    public function load_images($data, $formName = null)
+    {
+        $product_image = new ProductsImages();
         $product_image->load($data, $formName);
 
         $files = UploadedFile::getInstances($product_image, 'image_url');
 
-        foreach($files as $file){
+        foreach ($files as $file) {
             $product_image = new ProductsImages();
             $product_image->image_url = $file;
 
@@ -84,28 +83,22 @@ class Products extends \yii\db\ActiveRecord
         return true;
     }
 
-    public function afterSave($insert, $changedAttributes){
-
-        //сохраним картинки
-        if ($insert) { // новая запись
-            foreach ($this->_images as $image) {
-                $image->prod_id = $this->id;
-                $image->scenario = "insert";
-                $image->save(true);
-            }
-        } else {
-
+    public function afterSave($insert, $changedAttributes)
+    {
+        //if ($insert) {
+        foreach ($this->_images as $image) {
+            $image->prod_id = $this->id;
+            $image->scenario = "insert";
+            $image->save(true);
         }
-
+        //}
         parent::afterSave($insert, $changedAttributes);
     }
 
-
-    /** Находит полную инфу о продукте */
-    public static function findProduct($id){
+    public static function findProduct($id)
+    {
 
     }
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -131,7 +124,8 @@ class Products extends \yii\db\ActiveRecord
         return $this->hasMany(ProductsImages::className(), ['prod_id' => 'id']);
     }
 
-    public function getImages(){
+    public function getImages()
+    {
         $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
         return $this->_images;
     }

@@ -2,8 +2,9 @@
 
 namespace cubiclab\store\models;
 
-use mongosoft\file\UploadImageBehavior;
 use Yii;
+use cubiclab\store\traits\ModuleTrait;
+use mongosoft\file\UploadImageBehavior;
 
 /**
  * This is the model class for table "products_images".
@@ -16,6 +17,7 @@ use Yii;
  */
 class ProductsImages extends \yii\db\ActiveRecord
 {
+    use ModuleTrait;
     /**
      * @inheritdoc
      */
@@ -56,13 +58,10 @@ class ProductsImages extends \yii\db\ActiveRecord
                 'class' => UploadImageBehavior::className(),
                 'attribute' => 'image_url',
                 'scenarios' => ['insert', 'update'],
-                //'placeholder' => '@app/modules/user/assets/images/userpic.jpg',
-                'path' => '@webroot/upload/user/{id}',
-                'url' => '@web/upload/user/{id}',
-                'thumbs' => [
-                    'thumb' => ['width' => 400, 'quality' => 90],
-                    'preview' => ['width' => 200, 'height' => 200],
-                ],
+                'placeholder' => $this->module->image_placeholder,
+                'path' => $this->module->image_path,
+                'url' => $this->module->image_url,
+                'thumbs' => $this->module->image_thumbs
             ],
         ];
     }

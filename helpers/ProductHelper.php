@@ -25,11 +25,11 @@ class ProductHelper
             if (is_array($param_values)) {
                 foreach ($param_values as $param_value) {
                     if ($param_value->param_id === $param_name->id) {
-                        //ловим какой параметр уже заполнен (редактирование)
+                        //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
                         $param_obj = $param_value;
                         break;
                     } else {
-                        //если параметр не был заполнен
+                        //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         $param_obj = new ParametersValues();
                     }
                 }
@@ -40,19 +40,19 @@ class ProductHelper
 
             switch ($param_name->is_range) {
                 case ParametersRange::RANGE_SINGLE;
-                    // TODO: как то hasmany должен работать. хз как
+                    // TODO: пїЅпїЅпїЅ пїЅпїЅ hasmany пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ
                     $range = ArrayHelper::map(ParametersRange::findAll(['param_id' => $param_name->id]), 'id', 'name');
-                    // TODO: проверить пустой элемент
-                    array_unshift($range, ''); //пустое значение
+                    // TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                    array_unshift($range, ''); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     $return .= $form->field($param_obj, 'param_value')->dropDownList($range, ['name' => 'ParametersValues[' . $param_name->id . ']'])->label($param_name->name)->hint($param_name->description);
                     break;
 
                 case ParametersRange::RANGE_MULTIPLY;
-                    // TODO: как то hasmany должен работать. хз как
+                    // TODO: пїЅпїЅпїЅ пїЅпїЅ hasmany пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅ пїЅпїЅпїЅ
                     $range = ArrayHelper::map(ParametersRange::findAll(['param_id' => $param_name->id]), 'id', 'name');
 
-                    //все отмеченные позиции
-                    if (is_array($param_values)) { //если $param_values массив - то редактирование
+                    //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                    if (is_array($param_values)) { //пїЅпїЅпїЅпїЅ $param_values пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                         $checked_list = [];
                         foreach ($param_values as $param_value) {
                             if ($param_value->param_id === $param_name->id) {
@@ -62,7 +62,7 @@ class ProductHelper
                         $param_obj->param_value = $checked_list;
                     }
 
-                    //возвращаем чекбоксы
+                    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     $return .= $form->field($param_obj, 'param_value')->checkboxList($range, ['name' => 'ParametersValues[' . $param_name->id . ']'])->label($param_name->name)->hint($param_name->description);
                     break;
 
@@ -78,8 +78,16 @@ class ProductHelper
         $return = [];
         $i=0;
         foreach($product->Images as $image){
-            $return[] = Html::img($image->getThumbUploadUrl('image_url'), ['class'=>'file-preview-image', 'alt'=>++$i, 'title'=>++$i]);
+            $return[] = Html::img($image->getThumbUploadUrl('image_url'), ['class'=>'file-preview-image', 'alt'=>++$i, 'title'=>$i]);
 
+        }
+        return $return;
+    }
+
+    public static function getImagesExtra($product){
+        $return = [];
+        foreach($product->Images as $image){
+            $return[] = [ 'url' => \yii\helpers\Url::toRoute('image/delete'), 'key' => $image->id ]; //caption
         }
         return $return;
     }
