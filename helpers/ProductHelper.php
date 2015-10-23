@@ -84,12 +84,10 @@ class ProductHelper
                 case ParametersRange::RANGE_SINGLE;
                     $range = $parameter->RangesArray;
                     $parameter->param_value = $parameter->range_id;
-                    array_unshift($range, '');
 
                     $return .= $form->field($parameter, 'param_value')
-                        ->dropDownList($range, ['name' => 'ParametersValues[' . $parameter->id . ']'])
-                        ->label($parameter->name)
-                        ->hint($parameter->description);
+                        ->dropDownList($range, ['name' => 'ParametersValues[' . $parameter->id . ']','prompt' => '- '.$parameter->description.' -'])
+                        ->label($parameter->name);
                     break;
 
                 case ParametersRange::RANGE_MULTIPLY;
@@ -104,9 +102,8 @@ class ProductHelper
 
                 default: //ParametersRange::RANGE_NULL;
                     $return .= $form->field($parameter, 'param_value')
-                        ->textInput(['name' => 'ParametersValues[' . $parameter->id . ']'])
-                        ->label($parameter->name)
-                        ->hint($parameter->description);
+                        ->textInput(['name' => 'ParametersValues[' . $parameter->id . ']', 'placeholder' => $parameter->description])
+                        ->label($parameter->name);
                     break;
 
             }
