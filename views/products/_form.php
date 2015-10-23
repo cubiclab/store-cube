@@ -17,9 +17,8 @@ use kartik\file\FileInput;
         'attribute' => 'image_url[]',
         'options' => ['multiple' => true],
         'pluginOptions' => [
-            'initialPreview'=>[
-                ProductHelper::showImages($product)
-            ],
+            'initialPreview' => ProductHelper::showImages($product),
+            'initialPreviewShowDelete'=>true,
             'overwriteInitial'=>false,
             'previewFileType' => 'any',
             'uploadUrl' => '/site/file-upload',
