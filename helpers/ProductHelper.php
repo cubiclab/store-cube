@@ -73,4 +73,14 @@ class ProductHelper
         }
         return $return;
     }
+
+    public static function showImages($product){
+        $return = [];
+        $i=0;
+        foreach($product->Images as $image){
+            $return[] = Html::img($image->getThumbUploadUrl('image_url'), ['class'=>'file-preview-image', 'alt'=>++$i, 'title'=>++$i]);
+
+        }
+        return $return;
+    }
 }

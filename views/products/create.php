@@ -18,6 +18,7 @@ echo $this->render(
     '_form',
     [
         'product' => $product,
+        'product_image' => $product_image,
         'parameter_names' => $parameter_names,
         'param_values' => $param_values,
     ]

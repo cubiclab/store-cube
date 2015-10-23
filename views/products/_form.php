@@ -3,11 +3,28 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use cubiclab\store\helpers\ProductHelper;
+use kartik\file\FileInput;
+
 ?>
 
 <div class="products-form">
 
-    <?php $form = ActiveForm::begin(['method' => 'POST']); ?>
+    <?php $form = ActiveForm::begin(['method' => 'POST', 'options' => ['enctype' => 'multipart/form-data']]); ?>
+
+    <?=
+    FileInput::widget([
+        'model' => $product_image,
+        'attribute' => 'image_url[]',
+        'options' => ['multiple' => true],
+        'pluginOptions' => [
+            'initialPreview'=>[
+                ProductHelper::showImages($product)
+            ],
+            'overwriteInitial'=>false,
+            'previewFileType' => 'any',
+            'uploadUrl' => '/site/file-upload',
+        ]
+    ]); ?>
 
     <?= $form->field($product, 'article')->textInput(['maxlength' => true]) ?>
 

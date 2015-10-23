@@ -3,6 +3,9 @@
 namespace cubiclab\store\models;
 
 use Yii;
+use yii\web\UploadedFile;
+
+use yii\db\BaseActiveRecord;
 
 /**
  * This is the model class for table "{{%products}}".
@@ -17,6 +20,11 @@ use Yii;
  */
 class Products extends \yii\db\ActiveRecord
 {
+    /**
+     * Объекты Image
+     */
+    private $_images = [];
+
     /**
      * @inheritdoc
      */
@@ -53,6 +61,52 @@ class Products extends \yii\db\ActiveRecord
         ];
     }
 
+    public function init()
+    {
+        parent::init();
+    }
+
+
+    /** создает объекты Image */
+    public function load_images($data, $formName = null){
+        $product_image =  new ProductsImages();
+        $product_image->load($data, $formName);
+
+        $files = UploadedFile::getInstances($product_image, 'image_url');
+
+        foreach($files as $file){
+            $product_image = new ProductsImages();
+            $product_image->image_url = $file;
+
+            $this->_images[] = $product_image;
+        }
+
+        return true;
+    }
+
+    public function afterSave($insert, $changedAttributes){
+
+        //сохраним картинки
+        if ($insert) { // новая запись
+            foreach ($this->_images as $image) {
+                $image->prod_id = $this->id;
+                $image->scenario = "insert";
+                $image->save(true);
+            }
+        } else {
+
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+
+    /** Находит полную инфу о продукте */
+    public static function findProduct($id){
+
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -76,4 +130,11 @@ class Products extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProductsImages::className(), ['prod_id' => 'id']);
     }
+
+    public function getImages(){
+        $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
+        return $this->_images;
+    }
+
+
 }

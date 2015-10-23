@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\models;
 
+use mongosoft\file\UploadImageBehavior;
 use Yii;
 
 /**
@@ -20,7 +21,7 @@ class ProductsImages extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'products_images';
+        return '{{%products_images}}';
     }
 
     /**
@@ -29,9 +30,10 @@ class ProductsImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['image_url', 'file', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty'=>true, 'on' => ['insert', 'update']],
             [['prod_id', 'image_url'], 'required'],
             [['prod_id'], 'integer'],
-            [['image_url'], 'string', 'max' => 128]
+
         ];
     }
 
@@ -44,6 +46,24 @@ class ProductsImages extends \yii\db\ActiveRecord
             'id' => 'ID',
             'prod_id' => 'Prod ID',
             'image_url' => 'Image Url',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => UploadImageBehavior::className(),
+                'attribute' => 'image_url',
+                'scenarios' => ['insert', 'update'],
+                //'placeholder' => '@app/modules/user/assets/images/userpic.jpg',
+                'path' => '@webroot/upload/user/{id}',
+                'url' => '@web/upload/user/{id}',
+                'thumbs' => [
+                    'thumb' => ['width' => 400, 'quality' => 90],
+                    'preview' => ['width' => 200, 'height' => 200],
+                ],
+            ],
         ];
     }
 

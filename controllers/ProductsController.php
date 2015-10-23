@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\controllers;
 
+use cubiclab\store\models\ProductsImages;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -69,6 +70,10 @@ class ProductsController extends Controller
     {
         //продукт
         $product = new Products();
+        //$product->scenario = 'insert';
+
+        $product_image = new ProductsImages();
+        $product_image->scenario = 'insert';
 
         //имена параметров
         $parameters = new Parameters();
@@ -79,7 +84,10 @@ class ProductsController extends Controller
         $categories = new Categories();
         $categories = $categories->find()->all();
 
-        if ($product->load(Yii::$app->request->post())) {
+        $post = Yii::$app->request->post();
+
+
+        if ($product->load(Yii::$app->request->post()) && $product->load_images(Yii::$app->request->post())){
             if ($product->validate()) {
                 if ($product->save(false)) {
 
@@ -132,6 +140,7 @@ class ProductsController extends Controller
         } else {
             return $this->render('create', [
                 'product' => $product,
+                'product_image' => $product_image,
                 'parameter_names' => $parameters,
                 'param_values' => $param_values,
             ]);
@@ -150,13 +159,18 @@ class ProductsController extends Controller
         //имена параметров
         $parameters = new Parameters();
         $parameters = $parameters->find()->all();
+
+
+        $product_image = new ProductsImages();
+        //$product_image->scenario = 'update';
+
         //значения параметров
         $param_values = ParametersValues::findAll(['product_id' => $id]);
 
         if ($product->load(Yii::$app->request->post())) {
             if ($product->validate()) {
                 if ($product->save(false)) {
-                    foreach($param_values as $param_value){
+                    foreach ($param_values as $param_value) {
                         $param_value->delete();
                     }
 
@@ -209,6 +223,7 @@ class ProductsController extends Controller
         } else {
             return $this->render('update', [
                 'product' => $product,
+                'product_image' => $product_image,
                 'parameter_names' => $parameters,
                 'param_values' => $param_values,
             ]);
