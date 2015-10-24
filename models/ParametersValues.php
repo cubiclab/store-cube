@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  */
 class ParametersValues extends \yii\db\ActiveRecord
 {
+    public $pid;
     public $name;
     public $description;
     public $units;
@@ -76,7 +77,14 @@ class ParametersValues extends \yii\db\ActiveRecord
 
     public function getRangesArray()
     {
-        return ArrayHelper::map(ParametersRange::findAll(['param_id' => $this->id]), 'id', 'name');
+        $ranges = ParametersRange::find()
+            ->select('*')
+            ->where(['param_id' => $this->id])
+            ->AndWhere(['status' => ParametersRange::STATUS_ACTIVE])
+            ->orderBy('order')
+            ->all();
+
+        return ArrayHelper::map($ranges, 'id', 'name');
     }
 
     public function getCheckedArray()
@@ -92,4 +100,5 @@ class ParametersValues extends \yii\db\ActiveRecord
         }
         return $checked;
     }
+
 }

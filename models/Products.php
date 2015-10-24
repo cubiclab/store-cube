@@ -85,15 +85,83 @@ class Products extends \yii\db\ActiveRecord
         return true;
     }
 
+    public function load_parameters($data)
+    {
+        if (!$data) return true;
+        if (!$this->_parameters) $this->getAllParameters();
+        foreach ($this->_parameters as $key => $parameter) {
+            $this->_parameters[$key]->param_id = $this->_parameters[$key]->id;
+            switch ($parameter->is_range) {
+
+                case ParametersRange::RANGE_SINGLE;
+                    $this->_parameters[$key]->range_id = $data[$parameter->id];
+                    break;
+                case ParametersRange::RANGE_MULTIPLY;
+                    $this->_parameters[$key]->range_id = $data[$parameter->id];
+                    break;
+                default:
+                    $this->_parameters[$key]->range_id = 0;
+                    $this->_parameters[$key]->param_value = $data[$parameter->id];
+                    break;
+            }
+        }
+        return true;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
-        //if ($insert) {
+
         foreach ($this->_images as $image) {
             $image->prod_id = $this->id;
             $image->scenario = "insert";
             $image->save(true);
         }
-        //}
+
+        if (!$insert) {
+            foreach ($this->_parameters as $parameter) {
+                ParametersValues::deleteAll('product_id = :product_id AND param_id in (:param_id)', [':product_id' => $this->id, ':param_id' => $parameter->id]);
+            }
+        }
+
+        foreach ($this->_parameters as $parameter) {
+            switch ($parameter->is_range) {
+                case ParametersRange::RANGE_SINGLE;
+                    if ($parameter->range_id) {
+                        $new_parameter = new ParametersValues();
+                        $new_parameter->param_id = $parameter->param_id;
+                        $new_parameter->product_id = $this->id;
+                        $new_parameter->range_id = $parameter->range_id;
+                        $new_parameter->param_value = "";
+                        $new_parameter->save(true);
+                    }
+                    break;
+                case ParametersRange::RANGE_MULTIPLY;
+                    //create new param for each checked range
+                    if (is_array($parameter->range_id)) {
+                        foreach ($parameter->range_id as $range_id) {
+                            if ($parameter->range_id) {
+                                $new_parameter = new ParametersValues();
+                                $new_parameter->param_id = $parameter->param_id;
+                                $new_parameter->product_id = $this->id;
+                                $new_parameter->range_id = $range_id;
+                                $new_parameter->param_value = "";
+                                $new_parameter->save(true);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    if ($parameter->param_value) {
+                        $new_parameter = new ParametersValues();
+                        $new_parameter->param_id = $parameter->param_id;
+                        $new_parameter->product_id = $this->id;
+                        $new_parameter->param_value = $parameter->param_value;
+                        $new_parameter->save(true);
+                    }
+                    break;
+            }
+        }
+
         parent::afterSave($insert, $changedAttributes);
     }
 
@@ -135,13 +203,17 @@ class Products extends \yii\db\ActiveRecord
     public function getAllParameters()
     {
 
-        if($this->id) { $id = $this->id; } else { $id = 0; }
-            $this->_parameters = ParametersValues::find()
-                ->select('*')
-                ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . $id)
-                ->where(['a.status' => Parameters::STATUS_ACTIVE])
-                ->orderBy('order')
-                ->all();
+        if ($this->id) {
+            $id = $this->id;
+        } else {
+            $id = 0;
+        }
+        $this->_parameters = ParametersValues::find()
+            ->select('*, ' . ParametersValues::tableName() . '.id as pid')
+            ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . $id)
+            ->where(['a.status' => Parameters::STATUS_ACTIVE])
+            ->orderBy('order')
+            ->all();
 
         return $this->_parameters;
     }

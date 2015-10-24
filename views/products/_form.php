@@ -24,7 +24,6 @@ use kartik\file\FileInput;
         <ul class="nav nav-tabs">
             <li class="active"><a href="#main-info" data-toggle="tab">Основные</a></li>
             <li class=""><a href="#parameters" data-toggle="tab">Параметры</a></li>
-            <li class=""><a href="#parameters2" data-toggle="tab">Параметры2</a></li>
             <li class=""><a href="#images_upload" data-toggle="tab">Изображения</a></li>
         </ul>
         <div class="tab-content">
@@ -43,10 +42,6 @@ use kartik\file\FileInput;
 
             </div>
             <div class="tab-pane fade" id="parameters">
-                <br>
-                <?= ProductHelper::getParamFields($form, $param_values, $parameter_names); ?>
-            </div>
-            <div class="tab-pane fade" id="parameters2">
                 <br>
                 <?= ProductHelper::getParamFields2($form, $product); ?>
             </div>

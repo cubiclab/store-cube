@@ -71,52 +71,12 @@ class ProductsController extends Controller
         $product = new Products();
         $product_image = new ProductsImages();
 
-
-        //имена параметров
-        $parameters = new Parameters();
-        $parameters = $parameters->find()->all();
-        $param_values = '';//new ParametersValues();
-
-
-        if ($product->load(Yii::$app->request->post()) && $product->load_images(Yii::$app->request->post())){
+        if ($product->load(Yii::$app->request->post())
+            && $product->load_images(Yii::$app->request->post())
+            && $product->load_parameters(Yii::$app->request->post('ParametersValues'))
+        ) {
             if ($product->validate()) {
                 if ($product->save(false)) {
-
-                    //сохраняем параметры
-                    foreach (Yii::$app->request->post('ParametersValues') as $parameter_key => $parameter_value) {
-                        if ($parameter_value) {
-                            $parameter_name = Parameters::findOne($parameter_key);
-                            switch ($parameter_name->is_range) {
-                                case ParametersRange::RANGE_SINGLE;
-                                    $new_parameter_value = new ParametersValues();
-                                    $new_parameter_value->param_id = $parameter_key;
-                                    $new_parameter_value->product_id = $product->id;
-                                    $new_parameter_value->range_id = $range_id;
-                                    $new_parameter_value->param_value = "";
-                                    $new_parameter_value->save();
-                                    break;
-
-                                case ParametersRange::RANGE_MULTIPLY;
-                                    foreach ($parameter_value as $range_key => $range_id) {
-                                        $new_parameter_value = new ParametersValues();
-                                        $new_parameter_value->param_id = $parameter_key;
-                                        $new_parameter_value->product_id = $product->id;
-                                        $new_parameter_value->range_id = $range_id;
-                                        $new_parameter_value->param_value = "";
-                                        $new_parameter_value->save();
-                                    }
-
-                                default: //Parameters::RANGE_NULL;
-                                    $new_parameter_value = new ParametersValues();
-                                    $new_parameter_value->param_id = $parameter_key;
-                                    $new_parameter_value->product_id = $product->id;
-                                    $new_parameter_value->param_value = $parameter_value;
-                                    $new_parameter_value->save();
-                                    break;
-                            }
-                        }
-                    }
-
                     Yii::$app->session->setFlash('success', Yii::t('storecube', 'PRODUCT_CREATE_SUCCESS'));
                     return $this->redirect(['update', 'id' => $product->id]);
                 } else {
@@ -132,8 +92,6 @@ class ProductsController extends Controller
             return $this->render('create', [
                 'product' => $product,
                 'product_image' => $product_image,
-                'parameter_names' => $parameters,
-                'param_values' => $param_values,
             ]);
         }
     }
@@ -147,66 +105,13 @@ class ProductsController extends Controller
     public function actionUpdate($id)
     {
         $product = $this->findModel($id);
-
-
-
-        $test = $product->allParameters;
-
-
-
         $product_image = new ProductsImages();
 
-
-        //имена параметров
-        $parameters = new Parameters();
-        $parameters = $parameters->find()->all();
-
-        //значения параметров
-        $param_values = ParametersValues::findAll(['product_id' => $id]);
-
-
-        if ($product->load(Yii::$app->request->post()) && $product->load_images(Yii::$app->request->post())) {
+        if ($product->load(Yii::$app->request->post())
+            && $product->load_images(Yii::$app->request->post())
+            && $product->load_parameters(Yii::$app->request->post('ParametersValues'))) {
             if ($product->validate()) {
                 if ($product->save(false)) {
-                    foreach ($param_values as $param_value) {
-                        $param_value->delete();
-                    }
-
-                    //сохраняем параметры
-                    foreach (Yii::$app->request->post('ParametersValues') as $parameter_key => $parameter_value) {
-                        if ($parameter_value) {
-                            $parameter_name = Parameters::findOne($parameter_key);
-                            switch ($parameter_name->is_range) {
-                                case ParametersRange::RANGE_SINGLE;
-                                    $new_parameter_value = new ParametersValues();
-                                    $new_parameter_value->param_id = $parameter_key;
-                                    $new_parameter_value->product_id = $product->id;
-                                    $new_parameter_value->range_id = $range_id;
-                                    $new_parameter_value->param_value = "";
-                                    $new_parameter_value->save();
-                                    break;
-
-                                case ParametersRange::RANGE_MULTIPLY;
-                                    foreach ($parameter_value as $range_key => $range_id) {
-                                        $new_parameter_value = new ParametersValues();
-                                        $new_parameter_value->param_id = $parameter_key;
-                                        $new_parameter_value->product_id = $product->id;
-                                        $new_parameter_value->range_id = $range_id;
-                                        $new_parameter_value->param_value = "";
-                                        $new_parameter_value->save();
-                                    }
-
-                                default: //Parameters::RANGE_NULL;
-                                    $new_parameter_value = new ParametersValues();
-                                    $new_parameter_value->param_id = $parameter_key;
-                                    $new_parameter_value->product_id = $product->id;
-                                    $new_parameter_value->param_value = $parameter_value;
-                                    $new_parameter_value->save();
-                                    break;
-                            }
-                        }
-                    }
-
                     Yii::$app->session->setFlash('success', Yii::t('storecube', 'PRODUCT_CREATE_SUCCESS'));
                     return $this->redirect(['update', 'id' => $product->id]);
                 } else {
@@ -214,7 +119,6 @@ class ProductsController extends Controller
                     return $this->refresh();
                 }
             } elseif (Yii::$app->request->isAjax) {
-                // TODO: доделать
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ActiveForm::validate($product);
             }
@@ -222,8 +126,6 @@ class ProductsController extends Controller
             return $this->render('update', [
                 'product' => $product,
                 'product_image' => $product_image,
-                'parameter_names' => $parameters,
-                'param_values' => $param_values,
             ]);
         }
     }

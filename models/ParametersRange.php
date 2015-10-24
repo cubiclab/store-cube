@@ -21,6 +21,11 @@ class ParametersRange extends \yii\db\ActiveRecord
     const RANGE_SINGLE   = 'S';
     const RANGE_NULL     = 'N';
 
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
