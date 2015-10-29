@@ -41,7 +41,7 @@ class m200809_000003_init_dap_terms_table extends Migration
     private function fillDefaultPayment()
     {
         return "INSERT INTO {{%dap_terms}} (id,`type`,`name`,description,price,discount,icon,status,`order`)
-                VALUES (NULL, 'payment','Наличными', 'Оплата производится курьеру', '', '', '1', '10')";
+                VALUES (NULL, 'payment','Наличными', 'Оплата производится курьеру', '', '', '','1', '10')";
     }
 
     public function safeDown()
