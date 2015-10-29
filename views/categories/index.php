@@ -42,6 +42,17 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
     ]
 ); ?>
 
+<?=  \talma\widgets\JsTree::widget([
+    'name' => 'js_tree',
+    'core' => [
+        //'data' => [[ 'id' => 'ajson1', 'parent' => '#', 'text' => 'Simple root node' ],
+        //    [ 'id' => 'ajson2', 'parent' => 'ajson1', 'text' => 'Simple root node' ],
+        //    [ 'id' => 'ajson3', 'parent' => 'ajson1', 'text' => 'Simple root node' ]]
+        'data'  => ['url' => \yii\helpers\Url::to(['ajax'])]
+    ],
+    'plugins' => ['types', 'dnd', 'contextmenu', 'wholerow', 'state'],
+]); ?>
+
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -62,6 +73,7 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
 
 Panel::end();
 ?>
+
 
 
 

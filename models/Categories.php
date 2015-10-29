@@ -63,6 +63,28 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getAll(){
+        $all = Categories::find()->all();
+
+        $models = [];
+        foreach($all as $value){
+            $model = new CategoryTree();
+            $model->id = $value->id;
+
+            if($value->parent){
+                $model->parent = $value->parent;
+            } else {
+                $model->parent = "#";
+            }
+
+            $model->text = $value->name;
+
+            $models[] = $model;
+        }
+
+        return $models;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

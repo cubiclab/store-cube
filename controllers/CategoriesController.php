@@ -2,12 +2,14 @@
 
 namespace cubiclab\store\controllers;
 
+use cubiclab\store\models\CategoryTree;
 use Yii;
 use cubiclab\store\models\Categories;
 use cubiclab\store\models\CategoriesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * CategoriesController implements the CRUD actions for Categories model.
@@ -39,6 +41,32 @@ class CategoriesController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionAjax()
+    {
+        $model = new CategoryTree();
+
+        //$allcats = $model->find()->all();
+
+        $model->id = "1";
+        $model->parent = "#";
+        $model->text = "Node1";
+        //$model->icon;
+        //$model->state;
+        //$model->opened;
+        //$model->disabled;
+        //$model->selected;
+
+
+       // if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            //return $model;
+
+        return Categories::getAll();
+        //} else {
+        //   return ""; //404
+        //}
     }
 
     /**
