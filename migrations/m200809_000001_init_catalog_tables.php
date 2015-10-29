@@ -14,11 +14,13 @@ class m200809_000001_init_catalog_tables extends Migration
 
         // Categories table
         $this->createTable('{{%categories}}', [
-            'id'           => Schema::TYPE_PK,
-            'parent'       => Schema::TYPE_INTEGER . " DEFAULT '0'",
-            'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
-            'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL',
-            'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL'
+            'id'           => $this->primaryKey(),
+            'parent'       => $this->integer()->defaultValue(0),
+            'name'         => $this->string(64)->notNull(),
+            'description'  => $this->text(),
+            'icon'         => $this->string(32),
+            'status'       => $this->smallInteger(1)->notNull(),
+            'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('parent', '{{%categories}}', 'parent', false);
 		
