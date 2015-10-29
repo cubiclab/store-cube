@@ -21,7 +21,7 @@ class m200809_000002_init_parameters_tables extends Migration
             'digit'        => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'is_range'     => Schema::TYPE_STRING . '(1) DEFAULT "N"',
             'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL',
-            'status'       => Schema::TYPE_SMALLINT . ' NOT NULL',
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
             'order'        => Schema::TYPE_INTEGER,
         ], $tableOptions);
         $this->createIndex('name', '{{%parameters}}', 'name', true);
@@ -34,7 +34,7 @@ class m200809_000002_init_parameters_tables extends Migration
             'param_id'     => Schema::TYPE_INTEGER,
             'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
             'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL',
-            'status'       => Schema::TYPE_SMALLINT . ' NOT NULL',
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
             'order'        => Schema::TYPE_INTEGER,
         ], $tableOptions);
         $this->createIndex('param_id', '{{%parameters_range}}', 'param_id', false);

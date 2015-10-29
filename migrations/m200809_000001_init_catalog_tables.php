@@ -19,7 +19,7 @@ class m200809_000001_init_catalog_tables extends Migration
             'name'         => $this->string(64)->notNull(),
             'description'  => $this->text(),
             'icon'         => $this->string(32),
-            'status'       => $this->smallInteger(1)->notNull(),
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
             'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('parent', '{{%categories}}', 'parent', false);

@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\models;
 
+use cubiclab\admin\behaviors\SortableModel;
 use Yii;
 
 /**
@@ -33,8 +34,8 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent', 'status', 'order'], 'integer'],
-            [['name', 'status', 'order'], 'required'],
+            [['parent', 'status'], 'integer'],
+            [['name', 'status'], 'required'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['icon'], 'string', 'max' => 32],
@@ -47,13 +48,18 @@ class Categories extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'parent' => 'AAAAAAAAA',
-            'name'  => Yii::t('storecube', 'ATTR_NAME'),
-            'description' => 'Description',
-            'icon' => 'Icon',
-            'status' => 'Status',
-            'order' => 'Order',
+            'id'            => Yii::t('storecube', 'ATTR_ID'),
+            'name'          => Yii::t('storecube', 'ATTR_NAME'),
+            'description'   => Yii::t('storecube', 'ATTR_DESCRIPTION'),
+            'icon'          => Yii::t('storecube', 'ATTR_ICON'),
+            'status'        => Yii::t('storecube', 'ATTR_STATUS'),
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            SortableModel::className(),
         ];
     }
 
