@@ -4,6 +4,8 @@ namespace cubiclab\store\models;
 
 use cubiclab\admin\behaviors\SortableModel;
 use Yii;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%categories}}".
@@ -20,6 +22,11 @@ use Yii;
  */
 class Categories extends \yii\db\ActiveRecord
 {
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
@@ -63,21 +70,25 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getAll(){
-        $all = Categories::find()->all();
+    public function getAll($prod_id = null){
+        $allCategories = $this->find()->all();
+        $selectedCategories = $this->getSelectedArray($prod_id);
 
         $models = [];
-        foreach($all as $value){
+        foreach($allCategories as $category){
             $model = new CategoryTree();
-            $model->id = $value->id;
+            $model->id = $category->id;
 
-            if($value->parent){
-                $model->parent = $value->parent;
+            if($category->parent){
+                $model->parent = $category->parent;
             } else {
                 $model->parent = "#";
             }
 
-            $model->text = $value->name;
+            $model->text = $category->name;
+            $model->setDisabled($category->status);
+            $model->setSelected($selectedCategories);
+
 
             $models[] = $model;
         }
@@ -91,5 +102,19 @@ class Categories extends \yii\db\ActiveRecord
     public function getCategoryProducts()
     {
         return $this->hasMany(CategoryProduct::className(), ['cat_id' => 'id']);
+    }
+
+    public function getSelectedArray($prod_id)
+    {
+        $query = (new Query)
+            ->from(CategoryProduct::tableName())
+            ->where(['prod_id' => $prod_id]);
+
+        $items = [];
+        foreach ($query->all($this->db) as $row) {
+            $items[] = (int)$row['cat_id'];
+        }
+
+        return $items;
     }
 }

@@ -74,6 +74,7 @@ class ProductsController extends Controller
         if ($product->load(Yii::$app->request->post())
             && $product->load_images(Yii::$app->request->post())
             && $product->load_parameters(Yii::$app->request->post('ParametersValues'))
+            && $product->load_categories(Yii::$app->request->post('cat_tree'))
         ) {
             if ($product->validate()) {
                 if ($product->save(false)) {
@@ -109,7 +110,9 @@ class ProductsController extends Controller
 
         if ($product->load(Yii::$app->request->post())
             && $product->load_images(Yii::$app->request->post())
-            && $product->load_parameters(Yii::$app->request->post('ParametersValues'))) {
+            && $product->load_parameters(Yii::$app->request->post('ParametersValues'))
+            && $product->load_categories(Yii::$app->request->post('cat_tree'))
+        ) {
             if ($product->validate()) {
                 if ($product->save(false)) {
                     Yii::$app->session->setFlash('success', Yii::t('storecube', 'PRODUCT_CREATE_SUCCESS'));

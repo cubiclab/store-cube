@@ -17,9 +17,22 @@ class CategoryTree
     public $parent;
     public $text;
     public $icon;
-    public $state;
-    public $opened;
-    public $disabled;
-    public $selected;
+    public $state = []; //opened, disabled, selected
+
+    public function setSelected($selectedValues){
+        if(in_array($this->id, $selectedValues)){
+            $this->state['selected'] = true;
+        }
+    }
+
+    public function setDisabled($status){
+        if($status == Categories::STATUS_INACTIVE){
+            $this->state['disabled'] = true;
+        }
+    }
+
+    public function setOpened($state = false){
+        $this->state['opened'] = $state;
+    }
 
 }

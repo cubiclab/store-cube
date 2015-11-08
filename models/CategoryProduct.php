@@ -41,7 +41,6 @@ class CategoryProduct extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'cat_id' => 'Cat ID',
             'prod_id' => 'Prod ID',
         ];

@@ -50,6 +50,10 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
         //    [ 'id' => 'ajson3', 'parent' => 'ajson1', 'text' => 'Simple root node' ]]
         'data'  => ['url' => \yii\helpers\Url::to(['ajax'])]
     ],
+    'types' => [
+        'default' => ['icon' => 'fa fa-folder text-warning fa-lg'],
+        'file' => ['icon' => 'fa fa-file text-warning fa-lg']
+    ],
     'plugins' => ['types', 'dnd', 'contextmenu', 'wholerow', 'state'],
 ]); ?>
 

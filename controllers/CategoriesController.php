@@ -43,27 +43,16 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function actionAjax()
+    public function actionAjax($prod_id = null)
     {
-        $model = new CategoryTree();
-
-        //$allcats = $model->find()->all();
-
-        $model->id = "1";
-        $model->parent = "#";
-        $model->text = "Node1";
-        //$model->icon;
-        //$model->state;
-        //$model->opened;
-        //$model->disabled;
-        //$model->selected;
 
 
        // if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
+        $categories = new Categories();
+        Yii::$app->response->format = Response::FORMAT_JSON;
             //return $model;
 
-        return Categories::getAll();
+        return $categories->getAll($prod_id);
         //} else {
         //   return ""; //404
         //}

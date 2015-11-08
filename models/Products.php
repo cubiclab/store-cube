@@ -3,6 +3,7 @@
 namespace cubiclab\store\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 use yii\db\BaseActiveRecord;
@@ -24,6 +25,8 @@ class Products extends \yii\db\ActiveRecord
     private $_images = [];
 
     private $_parameters = [];
+
+    private $_categories = [];
 
     /**
      * @inheritdoc
@@ -108,6 +111,19 @@ class Products extends \yii\db\ActiveRecord
         return true;
     }
 
+    public function load_categories($data)
+    {
+        if (!$data) return true;
+        $data = explode(',', str_replace(['"','[',']'], '', $data));
+
+        foreach($data as $cat_id){
+            $new_cat = new CategoryProduct();
+            $new_cat->cat_id = $cat_id;
+            $this->_categories[] = $new_cat;
+        }
+        return true;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
 
@@ -121,6 +137,14 @@ class Products extends \yii\db\ActiveRecord
             foreach ($this->_parameters as $parameter) {
                 ParametersValues::deleteAll('product_id = :product_id AND param_id in (:param_id)', [':product_id' => $this->id, ':param_id' => $parameter->id]);
             }
+            foreach ($this->_categories as $category) {
+                CategoryProduct::deleteAll('prod_id = :prod_id', [':prod_id' => $this->id]);
+            }
+        }
+
+        foreach ($this->_categories as $category) {
+            $category->prod_id = $this->id;
+            $category->save(true);
         }
 
         foreach ($this->_parameters as $parameter) {
@@ -160,6 +184,7 @@ class Products extends \yii\db\ActiveRecord
                     }
                     break;
             }
+
         }
 
         parent::afterSave($insert, $changedAttributes);
