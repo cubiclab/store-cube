@@ -3,6 +3,7 @@
 namespace cubiclab\store\models;
 
 use cubiclab\admin\behaviors\SortableModel;
+use cubiclab\store\StoreCube;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -55,11 +56,11 @@ class Categories extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => Yii::t('storecube', 'ATTR_ID'),
-            'name'          => Yii::t('storecube', 'ATTR_NAME'),
-            'description'   => Yii::t('storecube', 'ATTR_DESCRIPTION'),
-            'icon'          => Yii::t('storecube', 'ATTR_ICON'),
-            'status'        => Yii::t('storecube', 'ATTR_STATUS'),
+            'id'            => StoreCube::t('storecube', 'ATTR_ID'),
+            'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
+            'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
+            'icon'          => StoreCube::t('storecube', 'ATTR_ICON'),
+            'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
         ];
     }
 

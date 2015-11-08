@@ -5,7 +5,7 @@ namespace cubiclab\store\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
-
+use cubiclab\store\StoreCube;
 use yii\db\BaseActiveRecord;
 
 /**
@@ -55,12 +55,12 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('storecube', 'ATTR_ID'),
-            'article' => Yii::t('storecube', 'ATTR_ARTICLE'),
-            'name' => Yii::t('storecube', 'ATTR_NAME'),
-            'short_desc' => Yii::t('storecube', 'ATTR_SHORT_DESC'),
-            'description' => Yii::t('storecube', 'ATTR_DESCRIPTION'),
-            'price' => Yii::t('storecube', 'ATTR_PRICE'),
+            'id' => StoreCube::t('storecube', 'ATTR_ID'),
+            'article' => StoreCube::t('storecube', 'ATTR_ARTICLE'),
+            'name' => StoreCube::t('storecube', 'ATTR_NAME'),
+            'short_desc' => StoreCube::t('storecube', 'ATTR_SHORT_DESC'),
+            'description' => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
+            'price' => StoreCube::t('storecube', 'ATTR_PRICE'),
         ];
     }
 
@@ -223,6 +223,11 @@ class Products extends \yii\db\ActiveRecord
     {
         $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
         return $this->_images;
+    }
+
+    public function getLastImage()
+    {
+        return ProductsImages::findOne(['prod_id' => $this->id]);
     }
 
     public function getAllParameters()

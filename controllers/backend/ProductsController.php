@@ -1,6 +1,6 @@
 <?php
 
-namespace cubiclab\store\controllers;
+namespace cubiclab\store\controllers\backend;
 
 use cubiclab\store\models\ProductsImages;
 use Yii;

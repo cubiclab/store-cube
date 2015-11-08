@@ -2,15 +2,19 @@
 namespace cubiclab\store;
 
 use Yii;
-use yii\base\BootstrapInterface;
-
+use cubiclab\base\BaseCube;
 /**
  * @version 0.0.1-prealpha
  */
-class StoreCube extends \yii\base\Module //implements BootstrapInterface
+class StoreCube extends BaseCube //implements BootstrapInterface
 {
     /** @const VERSION Module version */
     const VERSION = "0.0.1-prealpha";
+
+    /**
+     * @inheritdoc
+     */
+    public static $name = 'store';
 
     public $image_placeholder = "@static/images/product.jpg";
     public $image_path = "@static/upload/products/{prod_id}";
@@ -32,7 +36,7 @@ class StoreCube extends \yii\base\Module //implements BootstrapInterface
         $this->registerTranslations();
     }
 
-    public function registerTranslations()
+    public static function registerTranslations()
     {
         if (empty(Yii::$app->i18n->translations['storecube'])) {
             Yii::$app->i18n->translations['storecube'] = [
@@ -40,5 +44,11 @@ class StoreCube extends \yii\base\Module //implements BootstrapInterface
                 'basePath' => __DIR__ . '/messages',
             ];
         }
+    }
+
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        StoreCube::registerTranslations();
+        return Yii::t($category, $message, $params, $language);
     }
 }
