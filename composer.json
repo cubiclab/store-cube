@@ -18,7 +18,9 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "cubiclab/admin-cube": "*"
+        "cubiclab/admin-cube": "*",
+        "thiagotalma/yii2-jstree": "~1.0.0",
+        "omnilight/yii2-shopping-cart": "*"
     },
     "autoload": {
         "psr-4": {

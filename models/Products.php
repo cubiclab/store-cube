@@ -8,6 +8,10 @@ use yii\web\UploadedFile;
 use cubiclab\store\StoreCube;
 use yii\db\BaseActiveRecord;
 
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionProviderInterface;
+use yz\shoppingcart\CartPositionTrait;
+
 /**
  * This is the model class for table "{{%products}}".
  *
@@ -19,8 +23,9 @@ use yii\db\BaseActiveRecord;
  * @property ParametersValues[] $parametersValues
  * @property ProductsImages[] $productsImages
  */
-class Products extends \yii\db\ActiveRecord
+class Products extends \yii\db\ActiveRecord implements CartPositionInterface
 {
+    use CartPositionTrait;
 
     private $_images = [];
 
@@ -219,19 +224,21 @@ class Products extends \yii\db\ActiveRecord
         return $this->hasMany(ProductsImages::className(), ['prod_id' => 'id']);
     }
 
+    public function getProductsFirstImage()
+    {
+        return $this->hasOne(ProductsImages::className(), ['prod_id' => 'id'])->orderBy('id');
+    }
+
+    //мне кажется это дублирование, надо переделать
     public function getImages()
     {
         $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
         return $this->_images;
     }
 
-    public function getLastImage()
-    {
-        return ProductsImages::findOne(['prod_id' => $this->id]);
-    }
-
     public function getAllParameters()
     {
+        if($this->_parameters) return $this->_parameters;
 
         if ($this->id) {
             $id = $this->id;
@@ -248,5 +255,13 @@ class Products extends \yii\db\ActiveRecord
         return $this->_parameters;
     }
 
+    public function getPrice()
+    {
+        return $this->price;
+    }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 }

@@ -17,7 +17,8 @@ use cubiclab\store\models\ParametersRange;
 
 class ProductHelper
 {
-    public static function getParamFields2($form, $product){
+    public static function getParamFields2($form, $product)
+    {
         $return = '';
 
         $allParams = $product->allParameters;
@@ -29,7 +30,7 @@ class ProductHelper
                     $parameter->param_value = $parameter->range_id;
 
                     $return .= $form->field($parameter, 'param_value')
-                        ->dropDownList($range, ['name' => 'ParametersValues[' . $parameter->id . ']','prompt' => '- '.$parameter->description.' -'])
+                        ->dropDownList($range, ['name' => 'ParametersValues[' . $parameter->id . ']', 'prompt' => '- ' . $parameter->description . ' -'])
                         ->label($parameter->name);
                     break;
 
@@ -55,20 +56,43 @@ class ProductHelper
         return $return;
     }
 
-    public static function getImages($product){
+    public static function getMultiplyOutput($form, $product)
+    {
+        $return = '';
+
+        $allParams = $product->allParameters;
+        foreach ($allParams as $parameter) {
+
+            if ($parameter->is_range == ParametersRange::RANGE_MULTIPLY) {
+                $range = $parameter->rangesArray;
+                $parameter->param_value = $parameter->checkedArray;
+
+                $return .= $form->field($parameter, 'param_value')
+                    ->checkboxList($range, ['name' => 'ParametersValues[' . $parameter->id . ']'])
+                    ->label($parameter->name)
+                    ->hint($parameter->description);
+            }
+        }
+
+        return $return;
+    }
+
+    public static function getImages($product)
+    {
         $return = [];
-        $i=0;
-        foreach($product->Images as $image){
-            $return[] = Html::img($image->getThumbUploadUrl('image_url'), ['class'=>'file-preview-image', 'alt'=>++$i, 'title'=>$i]);
+        $i = 0;
+        foreach ($product->Images as $image) {
+            $return[] = Html::img($image->getThumbUploadUrl('image_url'), ['class' => 'file-preview-image', 'alt' => ++$i, 'title' => $i]);
 
         }
         return $return;
     }
 
-    public static function getImagesExtra($product){
+    public static function getImagesExtra($product)
+    {
         $return = [];
-        foreach($product->Images as $image){
-            $return[] = [ 'url' => \yii\helpers\Url::toRoute('image/delete'), 'key' => $image->id ]; //caption
+        foreach ($product->Images as $image) {
+            $return[] = ['url' => \yii\helpers\Url::toRoute('image/delete'), 'key' => $image->id]; //caption
         }
         return $return;
     }
