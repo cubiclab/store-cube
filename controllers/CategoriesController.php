@@ -7,6 +7,7 @@ use Yii;
 use cubiclab\store\models\Categories;
 use cubiclab\store\models\CategoriesSearch;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -45,17 +46,13 @@ class CategoriesController extends Controller
 
     public function actionAjax($prod_id = null)
     {
-
-
-       // if (Yii::$app->request->isAjax) {
-        $categories = new Categories();
-        Yii::$app->response->format = Response::FORMAT_JSON;
-            //return $model;
-
-        return $categories->getAll($prod_id);
-        //} else {
-        //   return ""; //404
-        //}
+        if (Yii::$app->request->isAjax) {
+            $categories = new Categories();
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $categories->getAll($prod_id);
+        } else {
+            throw new HttpException(404,'The specified post cannot be found.');
+        }
     }
 
     /**

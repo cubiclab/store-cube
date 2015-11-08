@@ -37,12 +37,10 @@ class m200809_000001_init_catalog_tables extends Migration
 
         // Category_Product table (Connection)
         $this->createTable('{{%category_product}}', [
-            'id'           => Schema::TYPE_PK,
             'cat_id'       => Schema::TYPE_INTEGER . ' NOT NULL',
             'prod_id'      => Schema::TYPE_INTEGER . ' NOT NULL'
         ], $tableOptions);
-        $this->createIndex('cat_id', '{{%category_product}}', 'cat_id', false);
-        $this->createIndex('prod_id', '{{%category_product}}', 'prod_id', false);
+        $this->primaryKey('cat_id', 'prod_id');
         $this->addForeignKey('FK_category', '{{%category_product}}', 'cat_id', '{{%categories}}', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('FK_product', '{{%category_product}}', 'prod_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
 
