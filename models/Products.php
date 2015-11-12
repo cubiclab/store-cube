@@ -74,8 +74,6 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         parent::init();
     }
 
-
-    /** ������� ������� Image */
     public function load_images($data, $formName = null)
     {
         $product_image = new ProductsImages();
@@ -193,11 +191,6 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         }
 
         parent::afterSave($insert, $changedAttributes);
-    }
-
-    public static function findProduct($id)
-    {
-
     }
 
     /**
