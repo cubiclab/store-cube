@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use cubiclab\users\StoreCube;
+use cubiclab\store\StoreCube;
 use cubiclab\admin\widgets\Panel;
 
-$this->title = Yii::t('storecube', 'PAGE_UPDATE_PRODUCT') . ' '  . $product->name;;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('storecube', 'PAGE_PRODUCTS'), 'url' => ['index']];
+$this->title = StoreCube::t('storecube', 'PAGE_UPDATE_PRODUCT') . ' '  . $product->name;;
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_PRODUCTS'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $product->name, 'url' => ['view', 'id' => $product->id]];
-$this->params['breadcrumbs'][] = Yii::t('admincube', 'BUTTON_UPDATE');
+$this->params['breadcrumbs'][] = StoreCube::t('admincube', 'BUTTON_UPDATE');
 
 Panel::begin(
     [

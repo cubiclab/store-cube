@@ -6,32 +6,53 @@ use cubiclab\store\models\ProductsImages;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
 use cubiclab\admin\components\Controller;
 
-use cubiclab\store\models\Categories;
-use cubiclab\store\models\Parameters;
-use cubiclab\store\models\ParametersRange;
-use cubiclab\store\models\ParametersValues;
-
 use cubiclab\store\models\Products;
-use cubiclab\store\models\ProductsSearch;
+use cubiclab\store\models\search\ProductsSearch;
 
 class ProductsController extends Controller
 {
+    /** @inheritdoc */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+        $behaviors = parent::behaviors();
+        $behaviors['access']['rules'] = [
+            [
+                'allow' => true,
+                'actions' => ['index'],
+                'roles' => ['ACPProductsView']
+            ]
         ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['create'],
+            'roles' => ['ACPProductsCreate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['update'],
+            'roles' => ['ACPProductsUpdate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['delete', 'mass-delete'],
+            'roles' => ['ACPProductsDelete']
+        ];
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'index' => ['get'],
+                'create' => ['get', 'post'],
+                'update' => ['get', 'put', 'post'],
+                'delete' => ['post', 'delete'],
+                'mass-delete' => ['post', 'delete']
+            ]
+        ];
+        return $behaviors;
     }
 
     /**

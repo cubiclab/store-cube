@@ -3,13 +3,10 @@
 namespace cubiclab\store\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use cubiclab\store\StoreCube;
-use yii\db\BaseActiveRecord;
 
 use yz\shoppingcart\CartPositionInterface;
-use yz\shoppingcart\CartPositionProviderInterface;
 use yz\shoppingcart\CartPositionTrait;
 
 /**

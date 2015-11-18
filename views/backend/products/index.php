@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
+use yii\grid\ActionColumn;
 use cubiclab\admin\widgets\Panel;
 
 $this->title = Yii::t('storecube', 'PAGE_PRODUCTS');
@@ -12,32 +13,30 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $gridId = 'products-grid';
 
-$boxButtons = $actions = [];
-$showActions = false;
-//if (Yii::$app->user->can('ACPCreateUsers')) {
-$boxButtons[] = '{create}';
-//}
-//if (Yii::$app->user->can('ACPUpdateUsers')) {
-$actions[] = '{update}';
-$showActions = $showActions || true;
-//}
-//if (Yii::$app->user->can('ACPDeleteUsers')) {
-$boxButtons[] = '{mass-delete}';
-$actions[] = '{delete}';
-$showActions = $showActions || true;
-//}
-if ($showActions === true) {
-    //$gridConfig['columns'][] = [
-    //    'class' => ActionColumn::className(),
-    //    'template' => implode(' ', $actions)
-    //];
+$panelButtons = $actions = [];
+if (Yii::$app->user->can('ACPProductsCreate')) {
+    $panelButtons[] = '{create}';
 }
-$boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
+if (Yii::$app->user->can('ACPProductsUpdate')) {
+    $actions[] = '{update}';
+}
+if (Yii::$app->user->can('ACPProductsDelete')) {
+    $panelButtons[] = '{mass-delete}';
+    $actions[] = '{delete}';
+}
+if (Yii::$app->user->can('ACPProductsView')) {
+    $actions[] = '{view}';
+}
+$gridActionsColumn = [
+    'class' => ActionColumn::className(),
+    'template' => implode(' ', $actions)
+];
+$panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
 
 <?php Panel::begin(
     [
         'title' => $this->title,
-        'buttonsTemplate' => $boxButtons,
+        'buttonsTemplate' => $panelButtons,
         'grid' => $gridId
     ]
 ); ?>
@@ -54,7 +53,7 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
         'name',
         'short_desc:ntext',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        $gridActionsColumn,
     ],
     'pager' => [
         'firstPageLabel' => 'First',

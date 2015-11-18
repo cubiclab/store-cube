@@ -1,37 +1,37 @@
 <?php
 
-use yii\helpers\Html;
 use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Products */
+use cubiclab\store\StoreCube;
+use cubiclab\admin\widgets\Panel;
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_PRODUCTS'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="products-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+$panelButtons = [];
+if (Yii::$app->user->can('ACPProductsUpdate')) {
+    $panelButtons[] = '{update}';
+}
+if (Yii::$app->user->can('ACPProductsDelete')) {
+    $panelButtons[] = '{delete}';
+}
+$panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null;
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+Panel::begin(
+    [
+        'title' => StoreCube::t('storecube', 'PAGE_PRODUCTS') . ': '. $this->title,
+        'buttonsTemplate' => $panelButtons,
+    ]
+);
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'description:ntext',
-        ],
-    ]) ?>
+echo DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'name',
+        'description:ntext',
+    ],
+]);
 
-</div>
+Panel::end();
+

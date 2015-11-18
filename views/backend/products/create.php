@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use cubiclab\users\StoreCube;
+use cubiclab\store\StoreCube;
 use cubiclab\admin\widgets\Panel;
 
-$this->title = Yii::t('storecube', 'PAGE_CREATE_PRODUCT');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('storecube', 'PAGE_PRODUCTS'), 'url' => ['index']];
+$this->title = StoreCube::t('storecube', 'PAGE_CREATE_PRODUCT');
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_PRODUCTS'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 Panel::begin(
