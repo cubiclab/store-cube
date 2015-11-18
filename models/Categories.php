@@ -57,6 +57,7 @@ class Categories extends \yii\db\ActiveRecord
         return [
             'id'            => StoreCube::t('storecube', 'ATTR_ID'),
             'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
+            'parent'        => StoreCube::t('storecube', 'ATTR_CAT_PARENT'),
             'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
             'icon'          => StoreCube::t('storecube', 'ATTR_ICON'),
             'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
