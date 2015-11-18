@@ -24,7 +24,7 @@ class CategoriesController extends Controller
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index', 'view', 'ajax'],
                 'roles' => ['ACPCategoriesView']
             ]
         ];
@@ -47,6 +47,7 @@ class CategoriesController extends Controller
             'class' => VerbFilter::className(),
             'actions' => [
                 'index' => ['get'],
+                'ajax'  => ['get'],
                 'create' => ['get', 'post'],
                 'update' => ['get', 'put', 'post'],
                 'delete' => ['post', 'delete'],
