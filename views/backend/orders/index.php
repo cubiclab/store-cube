@@ -48,7 +48,32 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
         ['class' => 'yii\grid\SerialColumn'],
 
         'id',
-        'status',
+         [
+            'attribute' => 'status',
+            'format' => 'html',
+            'value' => function ($model) {
+                switch($model->status){
+                    case $model::STATUS_BLANK;      $class = 'label-default';   break;
+                    case $model::STATUS_PENDING;    $class = 'label-info';      break;
+                    case $model::STATUS_PROCESSED;  $class = 'label-primary';   break;
+                    case $model::STATUS_DECLINED;   $class = 'label-danger';    break;
+                    case $model::STATUS_SENDED;     $class = 'label-primary';   break;
+                    case $model::STATUS_RETURNED;   $class = 'label-danger';    break;
+                    case $model::STATUS_ERROR;      $class = 'label-danger';    break;
+                    case $model::STATUS_COMPLETED;  $class = 'label-success';   break;
+                    default: $class = 'label-default'; break;
+                }
+                return '<span class="label ' . $class . '">' . $model->statusName . '</span>';
+            },
+            'filter' => Html::activeDropDownList(
+                $searchModel,
+                'status',
+                $statusArray,
+                ['class' => 'form-control', 'prompt' => StoreCube::t('storecube', 'STATUS_PROMT')]
+            )
+        ],
+
+
         'name',
         'address',
         // 'phone',

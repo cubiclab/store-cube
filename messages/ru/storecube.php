@@ -46,6 +46,7 @@ return [
     'PAGE_CREATE_ORDERS'       => 'Создание заказа',
     'PAGE_UPDATE_ORDERS'       => 'Изменение заказа',
 
+    'STATUS_PROMT'             => '-- Статус --',
     'STATUS_BLANK'             => 'Зарезервирован',
     'STATUS_PENDING'           => 'В обработке',
     'STATUS_PROCESSED'         => 'Обработан',

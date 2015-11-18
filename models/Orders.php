@@ -92,8 +92,8 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function states()
-    {
+    /** @return array Status array. */
+    public static function getStatusArray(){
         return [
             self::STATUS_BLANK      => StoreCube::t('storecube', 'STATUS_BLANK'),
             self::STATUS_PENDING    => StoreCube::t('storecube', 'STATUS_PENDING'),
@@ -106,9 +106,10 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
+    /** @return string Model status. */
     public function getStatusName()
     {
-        $states = self::states();
+        $states = self::getStatusArray();
         return !empty($states[$this->status]) ? $states[$this->status] : $this->status;
     }
 

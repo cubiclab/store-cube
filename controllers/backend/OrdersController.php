@@ -62,9 +62,12 @@ class OrdersController extends Controller
         $searchModel = new OrdersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $statusArray = Orders::getStatusArray();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statusArray' => $statusArray,
         ]);
     }
 
