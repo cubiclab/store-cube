@@ -3,6 +3,7 @@
 namespace cubiclab\store\models;
 
 use Yii;
+use cubiclab\store\StoreCube;
 
 /**
  * This is the model class for table "parameters".
@@ -55,12 +56,15 @@ class Parameters extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'units' => 'Units',
-            'digit' => 'Digit',
-            'icon' => 'Icon',
+            'id'            => StoreCube::t('storecube', 'ATTR_ID'),
+            'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
+            'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
+            'units'         => StoreCube::t('storecube', 'ATTR_UNITS'),
+            'digit'         => StoreCube::t('storecube', 'ATTR_DIGIT'),
+            'is_range'      => StoreCube::t('storecube', 'ATTR_IS_RANGE'),
+            'icon'          => StoreCube::t('storecube', 'ATTR_ICON'),
+            'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
+            'order'         => StoreCube::t('storecube', 'ATTR_ORDER'),
         ];
     }
 
