@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
+use yii\grid\ActionColumn;
 use cubiclab\admin\widgets\Panel;
 
 $this->title = Yii::t('storecube', 'PAGE_CATEGORIES');
@@ -10,45 +11,43 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php
-$gridId = 'products-grid';
+$gridId = 'categories-grid';
 
-$boxButtons = $actions = [];
-$showActions = false;
-//if (Yii::$app->user->can('ACPCreateCategories')) {
-$boxButtons[] = '{create}';
-//}
-//if (Yii::$app->user->can('ACPUpdateCategories')) {
-$actions[] = '{update}';
-$showActions = $showActions || true;
-//}
-//if (Yii::$app->user->can('ACPDeleteCategories')) {
-$boxButtons[] = '{mass-delete}';
-$actions[] = '{delete}';
-$showActions = $showActions || true;
-//}
-if ($showActions === true) {
-    //$gridConfig['columns'][] = [
-    //    'class' => ActionColumn::className(),
-    //    'template' => implode(' ', $actions)
-    //];
+$panelButtons = $actions = [];
+if (Yii::$app->user->can('ACPCategoriesCreate')) {
+    $panelButtons[] = '{create}';
 }
-$boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
+if (Yii::$app->user->can('ACPCategoriesUpdate')) {
+    $actions[] = '{update}';
+}
+if (Yii::$app->user->can('ACPCategoriesDelete')) {
+    $panelButtons[] = '{mass-delete}';
+    $actions[] = '{delete}';
+}
+if (Yii::$app->user->can('ACPCategoriesView')) {
+    $actions[] = '{view}';
+}
+$gridActionsColumn = [
+    'class' => ActionColumn::className(),
+    'template' => implode(' ', $actions)
+];
+$panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
 
 <?php Panel::begin(
     [
         'title' => $this->title,
-        'buttonsTemplate' => $boxButtons,
+        'buttonsTemplate' => $panelButtons,
         'grid' => $gridId
     ]
 ); ?>
 
-<?=  \talma\widgets\JsTree::widget([
+<?= \talma\widgets\JsTree::widget([
     'name' => 'js_tree',
     'core' => [
         //'data' => [[ 'id' => 'ajson1', 'parent' => '#', 'text' => 'Simple root node' ],
         //    [ 'id' => 'ajson2', 'parent' => 'ajson1', 'text' => 'Simple root node' ],
         //    [ 'id' => 'ajson3', 'parent' => 'ajson1', 'text' => 'Simple root node' ]]
-        'data'  => ['url' => \yii\helpers\Url::to(['ajax'])]
+        'data' => ['url' => \yii\helpers\Url::to(['ajax'])]
     ],
     'types' => [
         'default' => ['icon' => 'fa fa-folder text-warning fa-lg'],
@@ -61,7 +60,9 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        [
+            'class' => CheckboxColumn::classname()
+        ],
 
         'id',
         'parent',
@@ -71,7 +72,7 @@ $boxButtons = !empty($boxButtons) ? implode(' ', $boxButtons) : null; ?>
         // 'status',
         // 'order',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        $gridActionsColumn,
     ],
 ]);
 

@@ -1,13 +1,7 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Categories */
-/* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="categories-form">
 
     <?php $form = ActiveForm::begin(); ?>

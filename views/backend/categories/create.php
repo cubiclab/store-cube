@@ -1,21 +1,25 @@
 <?php
 
 use yii\helpers\Html;
+use cubiclab\store\StoreCube;
+use cubiclab\admin\widgets\Panel;
 
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Categories */
-
-$this->title = Yii::t('app', 'Create Categories');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
+$this->title = StoreCube::t('storecube', 'PAGE_CREATE_CATEGORIES');
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_CATEGORIES'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="categories-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+Panel::begin(
+    [
+        'title' => $this->title,
+    ]
+);
 
-    <?= $this->render('_form', [
+echo $this->render(
+    '_form',
+    [
         'model' => $model,
-    ]) ?>
+    ]
+);
 
-</div>
+Panel::end();
+?>

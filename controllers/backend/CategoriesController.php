@@ -5,28 +5,55 @@ namespace cubiclab\store\controllers\backend;
 use cubiclab\store\models\CategoryTree;
 use Yii;
 use cubiclab\store\models\Categories;
-use cubiclab\store\models\CategoriesSearch;
-use yii\web\Controller;
+use cubiclab\store\models\search\CategoriesSearch;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use cubiclab\admin\components\Controller;
 
 /**
  * CategoriesController implements the CRUD actions for Categories model.
  */
 class CategoriesController extends Controller
 {
+    /** @inheritdoc */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+        $behaviors = parent::behaviors();
+        $behaviors['access']['rules'] = [
+            [
+                'allow' => true,
+                'actions' => ['index'],
+                'roles' => ['ACPCategoriesView']
+            ]
         ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['create'],
+            'roles' => ['ACPCategoriesCreate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['update'],
+            'roles' => ['ACPCategoriesUpdate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['delete', 'mass-delete'],
+            'roles' => ['ACPCategoriesDelete']
+        ];
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'index' => ['get'],
+                'create' => ['get', 'post'],
+                'update' => ['get', 'put', 'post'],
+                'delete' => ['post', 'delete'],
+                'mass-delete' => ['post', 'delete']
+            ]
+        ];
+        return $behaviors;
     }
 
     /**

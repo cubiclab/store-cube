@@ -1,41 +1,40 @@
 <?php
 
-use yii\helpers\Html;
 use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Categories */
+use cubiclab\store\StoreCube;
+use cubiclab\admin\widgets\Panel;
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_CATEGORIES'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="categories-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+$panelButtons = [];
+if (Yii::$app->user->can('ACPCategoriesUpdate')) {
+    $panelButtons[] = '{update}';
+}
+if (Yii::$app->user->can('ACPCategoriesDelete')) {
+    $panelButtons[] = '{delete}';
+}
+$panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null;
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+Panel::begin(
+    [
+        'title' => StoreCube::t('storecube', 'PAGE_CATEGORIES') . ': '. $this->title,
+        'buttonsTemplate' => $panelButtons,
+    ]
+);
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'parent',
-            'name',
-            'description:ntext',
-            'icon',
-            'status',
-            'order',
-        ],
-    ]) ?>
+echo DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'parent',
+        'name',
+        'description:ntext',
+        'icon',
+        'status',
+        'order',
+    ],
+]);
 
-</div>
+Panel::end();

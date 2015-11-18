@@ -6,7 +6,6 @@ use cubiclab\admin\behaviors\SortableModel;
 use cubiclab\store\StoreCube;
 use Yii;
 use yii\db\Query;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%categories}}".

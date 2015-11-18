@@ -1,23 +1,26 @@
 <?php
 
 use yii\helpers\Html;
+use cubiclab\store\StoreCube;
+use cubiclab\admin\widgets\Panel;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Categories */
-
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Categories',
-]) . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
+$this->title = StoreCube::t('storecube', 'PAGE_UPDATE_CATEGORIES') . ' '  . $model->name;;
+$this->params['breadcrumbs'][] = ['label' => StoreCube::t('storecube', 'PAGE_CATEGORIES'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
-?>
-<div class="categories-update">
+$this->params['breadcrumbs'][] = StoreCube::t('admincube', 'BUTTON_UPDATE');
 
-    <h1><?= Html::encode($this->title) ?></h1>
+Panel::begin(
+    [
+        'title' => $this->title,
+    ]
+);
 
-    <?= $this->render('_form', [
+echo $this->render(
+    '_form',
+    [
         'model' => $model,
-    ]) ?>
+    ]
+);
 
-</div>
+Panel::end();
+?>
