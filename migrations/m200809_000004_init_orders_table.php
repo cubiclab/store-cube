@@ -21,7 +21,8 @@ class m200809_000004_init_orders_table extends Migration
         // Delivery & Payment variants table
         $this->createTable('{{%orders}}', [
             'id'            => $this->primaryKey(),
-            'dap_id'        => $this->integer()->notNull(),
+            'delivery_id'        => $this->integer()->notNull(),
+            'payment_id'        => $this->integer()->notNull(),
             'status'        => $this->smallInteger(1)->notNull(),
             'name'          => $this->string(64)->notNull(),
             'address'       => $this->string(255)->notNull(),

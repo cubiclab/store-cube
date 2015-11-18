@@ -52,8 +52,8 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dap_id', 'status', 'name', 'address', 'phone', 'email', 'comment', 'remark', 'access_token', 'ip'], 'required'],
-            [['dap_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['delivery_id', 'payment_id', 'status', 'name', 'address', 'phone', 'email', 'comment', 'remark', 'access_token', 'ip'], 'required'],
+            [['delivery_id', 'payment_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['total_price'], 'number'],
             [['name', 'phone'], 'string', 'max' => 64],
             [['address'], 'string', 'max' => 255],
@@ -61,7 +61,8 @@ class Orders extends \yii\db\ActiveRecord
             [['comment', 'remark'], 'string', 'max' => 1024],
             [['access_token'], 'string', 'max' => 32],
             [['ip'], 'string', 'max' => 16],
-            [['dap_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['dap_id' => 'id']],
+            [['delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['delivery_id' => 'id']],
+            [['payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['payment_id' => 'id']],
         ];
     }
 
@@ -72,7 +73,8 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             'id'            => StoreCube::t('storecube', 'ATTR_ID'),
-            'dap_id'        => StoreCube::t('storecube', 'ATTR_DAP_ID'),
+            'delivery_id'   => StoreCube::t('storecube', 'ATTR_DELIVERY'),
+            'payment_id'    => StoreCube::t('storecube', 'ATTR_PAYMENT'),
             'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
             'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
             'address'       => StoreCube::t('storecube', 'ATTR_ADDRESS'),
@@ -113,8 +115,13 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDap()
+    public function getDelivery()
     {
-        return $this->hasOne(DapTerms::className(), ['id' => 'dap_id']);
+        return $this->hasOne(DapTerms::className(), ['id' => 'delivery_id']);
+    }
+
+    public function getPayment()
+    {
+        return $this->hasOne(DapTerms::className(), ['id' => 'payment_id']);
     }
 }
