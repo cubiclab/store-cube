@@ -18,7 +18,7 @@ class OrdersSearch extends Orders
     public function rules()
     {
         return [
-            [['id', 'dap_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['name', 'address', 'phone', 'email', 'comment', 'remark', 'access_token', 'ip'], 'safe'],
             [['total_price'], 'number'],
         ];
@@ -61,7 +61,6 @@ class OrdersSearch extends Orders
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'dap_id' => $this->dap_id,
             'status' => $this->status,
             'total_price' => $this->total_price,
             'created_at' => $this->created_at,

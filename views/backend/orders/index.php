@@ -48,7 +48,6 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
         ['class' => 'yii\grid\SerialColumn'],
 
         'id',
-        'dap_id',
         'status',
         'name',
         'address',
