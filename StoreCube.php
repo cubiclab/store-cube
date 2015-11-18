@@ -27,6 +27,10 @@ class StoreCube extends BaseCube //implements BootstrapInterface
     public static $menu =
         ['label' => 'Store', 'icon' => 'fa-shopping-cart', 'items' => [
             ['label' => 'All Products', 'url' => ['/admin/store/products']],
+            ['label' => 'Orders', 'url' => ['/admin/store/orders']],
+            ['label' => 'DAP Terms', 'url' => ['/admin/store/dap-terms']],
+            ['label' => 'Categories', 'url' => ['/admin/store/categories']],
+            ['label' => 'Parameters', 'url' => ['/admin/store/parameters']],
         ]];
 
     /** @inheritdoc */
