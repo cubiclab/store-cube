@@ -22,7 +22,6 @@ return [
     'ATTR_PHONE'             => 'Phone',
     'ATTR_EMAIL'             => 'Email',
     'ATTR_COMMENT'           => 'Comment',
-    'ATTR_REMARK'            => 'Remark',
     'ATTR_ACCESS_TOKEN'      => 'Access Token',
     'ATTR_IP'                => 'IP Address',
     'ATTR_CREATED_AT'        => 'Created At',

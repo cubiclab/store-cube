@@ -19,8 +19,7 @@ class OrdersSearch extends Orders
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'address', 'phone', 'email', 'comment', 'remark', 'access_token', 'ip'], 'safe'],
-            [['total_price'], 'number'],
+            [['name', 'address', 'phone', 'email', 'comment', 'access_token', 'ip'], 'safe'],
         ];
     }
 
@@ -62,7 +61,6 @@ class OrdersSearch extends Orders
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
-            'total_price' => $this->total_price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
@@ -74,7 +72,6 @@ class OrdersSearch extends Orders
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'comment', $this->comment])
-            ->andFilterWhere(['like', 'remark', $this->remark])
             ->andFilterWhere(['like', 'access_token', $this->access_token])
             ->andFilterWhere(['like', 'ip', $this->ip]);
 

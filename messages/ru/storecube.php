@@ -22,7 +22,6 @@ return [
     'ATTR_PHONE'            => 'Телефон',
     'ATTR_EMAIL'            => 'Email',
     'ATTR_COMMENT'          => 'Комментарий',
-    'ATTR_REMARK'           => 'Ремарка',
     'ATTR_ACCESS_TOKEN'     => 'Токен',
     'ATTR_IP'               => 'IP Адрес',
     'ATTR_CREATED_AT'       => 'Создано',

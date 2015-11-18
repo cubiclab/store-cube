@@ -12,8 +12,6 @@ use cubiclab\store\StoreCube;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'dap_id') ?>
-
     <?= $form->field($model, 'status') ?>
 
     <?= $form->field($model, 'name') ?>
@@ -26,11 +24,7 @@ use cubiclab\store\StoreCube;
 
     <?php // echo $form->field($model, 'comment') ?>
 
-    <?php // echo $form->field($model, 'remark') ?>
-
     <?php // echo $form->field($model, 'access_token') ?>
-
-    <?php // echo $form->field($model, 'total_price') ?>
 
     <?php // echo $form->field($model, 'ip') ?>
 

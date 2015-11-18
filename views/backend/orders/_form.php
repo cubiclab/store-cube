@@ -21,13 +21,9 @@ use cubiclab\store\StoreCube;
 
     <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'remark')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'access_token')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'payment_id')->textInput() ?>
-
-    <?= $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ip')->textInput(['maxlength' => true]) ?>
 

@@ -16,9 +16,7 @@ use cubiclab\store\StoreCube;
  * @property string $phone
  * @property string $email
  * @property string $comment
- * @property string $remark
  * @property string $access_token
- * @property string $total_price
  * @property string $ip
  * @property integer $created_at
  * @property integer $updated_at
@@ -52,13 +50,12 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery_id', 'payment_id', 'status', 'name', 'address', 'phone', 'email', 'comment', 'remark', 'access_token', 'ip'], 'required'],
+            [['delivery_id', 'payment_id', 'status', 'name', 'address', 'phone', 'email', 'comment', 'access_token', 'ip'], 'required'],
             [['delivery_id', 'payment_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['total_price'], 'number'],
             [['name', 'phone'], 'string', 'max' => 64],
             [['address'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 128],
-            [['comment', 'remark'], 'string', 'max' => 1024],
+            [['comment'], 'string', 'max' => 1024],
             [['access_token'], 'string', 'max' => 32],
             [['ip'], 'string', 'max' => 16],
             [['delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['delivery_id' => 'id']],
@@ -81,9 +78,7 @@ class Orders extends \yii\db\ActiveRecord
             'phone'         => StoreCube::t('storecube', 'ATTR_PHONE'),
             'email'         => StoreCube::t('storecube', 'ATTR_EMAIL'),
             'comment'       => StoreCube::t('storecube', 'ATTR_COMMENT'),
-            'remark'        => StoreCube::t('storecube', 'ATTR_REMARK'),
             'access_token'  => StoreCube::t('storecube', 'ATTR_ACCESS_TOKEN'),
-            'total_price'   => StoreCube::t('storecube', 'ATTR_PRICE'),
             'ip'            => StoreCube::t('storecube', 'ATTR_IP'),
             'created_at'    => StoreCube::t('storecube', 'ATTR_CREATED_AT'),
             'updated_at'    => StoreCube::t('storecube', 'ATTR_UPDATED_AT'),
