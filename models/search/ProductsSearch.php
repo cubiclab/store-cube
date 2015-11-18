@@ -1,6 +1,6 @@
 <?php
 
-namespace cubiclab\store\models;
+namespace cubiclab\store\models\search;
 
 use Yii;
 use yii\base\Model;

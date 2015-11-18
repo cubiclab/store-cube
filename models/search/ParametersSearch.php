@@ -1,16 +1,16 @@
 <?php
 
-namespace cubiclab\store\models;
+namespace cubiclab\store\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use cubiclab\store\models\Categories;
+use cubiclab\store\models\Parameters;
 
 /**
- * CategoriesSearch represents the model behind the search form about `app\models\Categories`.
+ * ParametersSearch represents the model behind the search form about `app\models\Parameters`.
  */
-class CategoriesSearch extends Categories
+class ParametersSearch extends Parameters
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CategoriesSearch extends Categories
     public function rules()
     {
         return [
-            [['id', 'parent', 'status', 'order'], 'integer'],
-            [['name', 'description', 'icon'], 'safe'],
+            [['id', 'digit', 'status', 'order'], 'integer'],
+            [['name', 'description', 'units', 'is_range', 'icon'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CategoriesSearch extends Categories
      */
     public function search($params)
     {
-        $query = Categories::find();
+        $query = Parameters::find();
 
         // add conditions that should always apply here
 
@@ -60,13 +60,15 @@ class CategoriesSearch extends Categories
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'parent' => $this->parent,
+            'digit' => $this->digit,
             'status' => $this->status,
             'order' => $this->order,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'units', $this->units])
+            ->andFilterWhere(['like', 'is_range', $this->is_range])
             ->andFilterWhere(['like', 'icon', $this->icon]);
 
         return $dataProvider;
