@@ -21,7 +21,7 @@ class DapTermsController extends Controller
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index', 'view'],
                 'roles' => ['ACPDAPView']
             ]
         ];
