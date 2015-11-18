@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use cubiclab\store\StoreCube;
 use cubiclab\store\helpers\ProductHelper;
 use kartik\file\FileInput;
 ?>
@@ -85,7 +86,7 @@ use kartik\file\FileInput;
     <div class="form-group">
         <div class="col-md-2"></div>
         <div class="col-md-9">
-            <?= Html::submitButton($product->isNewRecord ? Yii::t('admincube', 'BUTTON_CREATE') : Yii::t('admincube', 'BUTTON_UPDATE'), ['class' => $product->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($product->isNewRecord ? StoreCube::t('admincube', 'BUTTON_CREATE') : StoreCube::t('admincube', 'BUTTON_UPDATE'), ['class' => $product->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

@@ -1,16 +1,17 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use cubiclab\store\StoreCube;
 ?>
 <div class="orders-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'dap_id')->textInput() ?>
-
     <?= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'delivery_id')->textInput() ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
@@ -23,6 +24,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'remark')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'access_token')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'payment_id')->textInput() ?>
 
     <?= $form->field($model, 'total_price')->textInput(['maxlength' => true]) ?>
 
@@ -37,7 +40,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'updated_by')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? StoreCube::t('admincube', 'BUTTON_CREATE') : StoreCube::t('admincube', 'BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
