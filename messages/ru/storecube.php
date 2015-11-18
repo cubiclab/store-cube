@@ -1,27 +1,62 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pt1c
- * Date: 20.08.2015
- * Time: 11:07
- */
-
 return [
 
-    'ATTR_ID'                => '#',
-    'ATTR_ARTICLE'           => 'Артикул',
-    'ATTR_NAME'              => 'Название',
-    'ATTR_SHORT_DESC'        => 'Короткое описание',
-    'ATTR_DESCRIPTION'       => 'Описание',
-    'ATTR_PRICE'             => 'Цена',
+    'ATTR_ID'               => '#',
+    'ATTR_ARTICLE'          => 'Артикул',
+    'ATTR_NAME'             => 'Название',
+    'ATTR_SHORT_DESC'       => 'Короткое описание',
+    'ATTR_DESCRIPTION'      => 'Описание',
+    'ATTR_PRICE'            => 'Цена',
+    'ATTR_UNITS'            => 'Ед. измерения',
+    'ATTR_DIGIT'            => 'Разрядность',
+    'ATTR_IS_RANGE'         => 'Диапозон',
+    'ATTR_ICON'             => 'Иконка',
+    'ATTR_STATUS'           => 'Статус',
+    'ATTR_ORDER'            => 'Сортировка',
+    'ATTR_CAT_PARENT'       => 'Категория родитель',
+    'ATTR_DAP_TYPE'         => 'Доставка/оплата',
+    'ATTR_DISCOUNT'         => 'Скидка',
+    'ATTR_DELIVERY'         => 'Доставка',
+    'ATTR_PAYMENT'          => 'Оплата',
+    'ATTR_ADDRESS'          => 'Адрес',
+    'ATTR_PHONE'            => 'Телефон',
+    'ATTR_EMAIL'            => 'Email',
+    'ATTR_COMMENT'          => 'Комментарий',
+    'ATTR_REMARK'           => 'Ремарка',
+    'ATTR_ACCESS_TOKEN'     => 'Токен',
+    'ATTR_IP'               => 'IP Адрес',
+    'ATTR_CREATED_AT'       => 'Создано',
+    'ATTR_UPDATED_AT'       => 'Изменено',
+    'ATTR_CREATED_BY'       => 'Создано',
+    'ATTR_UPDATED_BY'       => 'Изменено',
 
     'PAGE_PRODUCTS'            => 'Товары',
     'PAGE_CREATE_PRODUCT'      => 'Создание товара',
     'PAGE_UPDATE_PRODUCT'      => 'Изменение товара:',
+    'PAGE_PARAMETERS'          => 'Параметры товара',
+    'PAGE_CREATE_PARAMETERS'   => 'Создание параметра',
+    'PAGE_UPDATE_PARAMETERS'   => 'Изменение параметра',
+    'PAGE_CATEGORIES'          => 'Категории',
+    'PAGE_CREATE_CATEGORIES'   => 'Создание категории',
+    'PAGE_UPDATE_CATEGORIES'   => 'Изменение категории',
+    'PAGE_DAP'                 => 'Доставка и оплата',
+    'PAGE_CREATE_DAP'          => 'Создание доставки/оплаты',
+    'PAGE_UPDATE_DAP'          => 'Изменение доставки/оплаты',
+    'PAGE_ORDERS'              => 'Заказы',
+    'PAGE_CREATE_ORDERS'       => 'Создание заказа',
+    'PAGE_UPDATE_ORDERS'       => 'Изменение заказа',
+
+    'STATUS_BLANK'             => 'Зарезервирован',
+    'STATUS_PENDING'           => 'В обработке',
+    'STATUS_PROCESSED'         => 'Обработан',
+    'STATUS_DECLINED'          => 'Не подтвержден',
+    'STATUS_SENDED'            => 'В доставке',
+    'STATUS_RETURNED'          => 'Возврат',
+    'STATUS_ERROR'             => 'Ошибка',
+    'STATUS_COMPLETED'         => 'Выполнен',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Товарная позиция успешно создана.',
     'PRODUCT_CREATE_FAIL'       => 'Ошибка при создании товарной позиции.',
     'PRODUCT_UPDATE_SUCCESS'    => 'Товарная позиция успешно обновлена.',
     'PRODUCT_UPDATE_FAIL'       => 'Ошибка при обновалении товарной позиции.',
-
 ];

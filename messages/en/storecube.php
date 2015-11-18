@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pt1c
- * Date: 20.08.2015
- * Time: 11:07
- */
-
 return [
 
     'ATTR_ID'                => 'ID',
@@ -14,10 +7,53 @@ return [
     'ATTR_SHORT_DESC'        => 'Short Description',
     'ATTR_DESCRIPTION'       => 'Full Description',
     'ATTR_PRICE'             => 'Price',
+    'ATTR_UNITS'             => 'Unit',
+    'ATTR_DIGIT'             => 'Decimals',
+    'ATTR_IS_RANGE'          => 'Range',
+    'ATTR_ICON'              => 'Icon',
+    'ATTR_STATUS'            => 'Status',
+    'ATTR_ORDER'             => 'Order',
+    'ATTR_CAT_PARENT'        => 'Parent Category',
+    'ATTR_DAP_TYPE'          => 'Delivery/Payment',
+    'ATTR_DISCOUNT'          => 'Discount',
+    'ATTR_DELIVERY'          => 'Delivery',
+    'ATTR_PAYMENT'           => 'Payment',
+    'ATTR_ADDRESS'           => 'Address',
+    'ATTR_PHONE'             => 'Phone',
+    'ATTR_EMAIL'             => 'Email',
+    'ATTR_COMMENT'           => 'Comment',
+    'ATTR_REMARK'            => 'Remark',
+    'ATTR_ACCESS_TOKEN'      => 'Access Token',
+    'ATTR_IP'                => 'IP Address',
+    'ATTR_CREATED_AT'        => 'Created At',
+    'ATTR_UPDATED_AT'        => 'Updated At',
+    'ATTR_CREATED_BY'        => 'Created By',
+    'ATTR_UPDATED_BY'        => 'Updated By',
 
     'PAGE_PRODUCTS'            => 'Products',
     'PAGE_CREATE_PRODUCT'      => 'Create product',
     'PAGE_UPDATE_PRODUCT'      => 'Change product:',
+    'PAGE_PARAMETERS'          => 'Параметры товара',
+    'PAGE_CREATE_PARAMETERS'   => 'Создание параметра',
+    'PAGE_UPDATE_PARAMETERS'   => 'Изменение параметра',
+    'PAGE_CATEGORIES'          => 'Категории',
+    'PAGE_CREATE_CATEGORIES'   => 'Создание категории',
+    'PAGE_UPDATE_CATEGORIES'   => 'Изменение категории',
+    'PAGE_DAP'                 => 'Доставка и оплата',
+    'PAGE_CREATE_DAP'          => 'Создание доставки/оплаты',
+    'PAGE_UPDATE_DAP'          => 'Изменение доставки/оплаты',
+    'PAGE_ORDERS'              => 'Заказы',
+    'PAGE_CREATE_ORDERS'       => 'Создание заказа',
+    'PAGE_UPDATE_ORDERS'       => 'Изменение заказа',
+
+    'STATUS_BLANK'             => 'BLANK',
+    'STATUS_PENDING'           => 'PENDING',
+    'STATUS_PROCESSED'         => 'PROCESSED',
+    'STATUS_DECLINED'          => 'DECLINED',
+    'STATUS_SENDED'            => 'SENDED',
+    'STATUS_RETURNED'          => 'RETURNED',
+    'STATUS_ERROR'             => 'ERROR',
+    'STATUS_COMPLETED'         => 'COMPLETED',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Product successfully created.',
     'PRODUCT_CREATE_FAIL'       => 'Error creating product.',
