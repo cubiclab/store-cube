@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use cubiclab\store\StoreCube;
 ?>
 <div class="categories-search">
 
@@ -24,8 +25,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'order') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(StoreCube::t('admincube', 'BUTTON_SEARCH'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(StoreCube::t('admincube', 'BUTTON_RESET'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
