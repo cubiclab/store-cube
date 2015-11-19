@@ -24,7 +24,7 @@ class m040000_000001_init_catalog_tables extends Migration
         ], $tableOptions);
         $this->createIndex('parent', '{{%categories}}', 'parent', false);
         $this->createIndex('slug', '{{%categories}}', 'slug', true);
-        $this->createIndex('order', '{{%categories}}', 'order', true);
+        $this->createIndex('order', '{{%categories}}', ['parent','order'], true);
         $this->createIndex('status', '{{%categories}}', 'status', false);
 
         // Products table
@@ -40,7 +40,7 @@ class m040000_000001_init_catalog_tables extends Migration
         ], $tableOptions);
         $this->createIndex('article', '{{%products}}', 'article', true);
         $this->createIndex('slug', '{{%products}}', 'slug', true);
-        $this->createIndex('order', '{{%products}}', 'order', true);
+        $this->createIndex('order', '{{%products}}', 'order', false);
         $this->createIndex('status', '{{%products}}', 'status', false);
 
         // Category_Product table (Connection)
