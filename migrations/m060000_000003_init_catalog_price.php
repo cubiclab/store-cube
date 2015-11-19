@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m200809_000005_init_catalog_price extends Migration
+class m060000_000003_init_catalog_price extends Migration
 {
     public function safeUp()
     {

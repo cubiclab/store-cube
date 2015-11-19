@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m200809_000000_init_store extends Migration
+class m000100_000000_init_store extends Migration
 {
     public function safeUp()
     {
@@ -36,7 +36,7 @@ class m200809_000000_init_store extends Migration
             'ACPProductsCreate' => 'Can create Products',
             'ACPProductsUpdate' => 'Can update Products',
             'ACPProductsDelete' => 'Can delete Products',
-            //Products
+            //Prices
             'ACPPriceTypesView' => 'Can view PriceTypes',
             'ACPPriceTypesCreate' => 'Can create PriceTypes',
             'ACPPriceTypesUpdate' => 'Can update PriceTypes',

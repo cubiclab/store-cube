@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m200809_000003_init_dap_terms_table extends Migration
+class m060000_000001_init_dap_terms_table extends Migration
 {
     public function safeUp()
     {

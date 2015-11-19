@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m200809_000002_init_parameters_tables extends Migration
+class m040000_000002_init_parameters_tables extends Migration
 {
     public function safeUp()
     {
