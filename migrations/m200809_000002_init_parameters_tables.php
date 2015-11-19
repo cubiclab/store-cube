@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m200809_000002_init_parameters_tables extends Migration
@@ -14,15 +13,15 @@ class m200809_000002_init_parameters_tables extends Migration
 
         // Parameters table
         $this->createTable('{{%parameters}}', [
-            'id'           => Schema::TYPE_PK,
-            'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
-            'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL',
-            'units'        => Schema::TYPE_STRING . '(64) DEFAULT NULL',
-            'digit'        => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'is_range'     => Schema::TYPE_STRING . '(1) DEFAULT "N"',
-            'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL',
-            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
-            'order'        => Schema::TYPE_INTEGER,
+            'id'           => $this->primaryKey(),
+            'name'         => $this->string(64)->notNull(),
+            'description'  => $this->text(),
+            'units'        => $this->string(64),
+            'digit'        => $this->smallInteger(),
+            'is_range'     => $this->string(1)->defaultValue('N'),
+            'icon'         => $this->string(32),
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(1),
+            'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('name', '{{%parameters}}', 'name', true);
         $this->createIndex('order', '{{%parameters}}', 'order', true);
@@ -30,35 +29,37 @@ class m200809_000002_init_parameters_tables extends Migration
 
         // Parameters_range table
         $this->createTable('{{%parameters_range}}', [
-            'id'           => Schema::TYPE_PK,
-            'param_id'     => Schema::TYPE_INTEGER,
-            'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
-            'icon'         => Schema::TYPE_STRING . '(32) DEFAULT NULL',
-            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
-            'order'        => Schema::TYPE_INTEGER,
+            'id'           => $this->primaryKey(),
+            'param_id'     => $this->integer()->notNull(),
+            'name'         => $this->string(64)->notNull(),
+            'icon'         => $this->string(32),
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(1),
+            'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('param_id', '{{%parameters_range}}', 'param_id', false);
         $this->createIndex('order', '{{%parameters_range}}', ['param_id','order'], true);
+        $this->createIndex('status', '{{%parameters_range}}', 'status', false);
         $this->addForeignKey('FK_parameters_range', '{{%parameters_range}}', 'param_id', '{{%parameters}}', 'id', 'CASCADE', 'CASCADE');
 
         // Parameters_values table
         $this->createTable('{{%parameters_values}}', [
-            'id'           => Schema::TYPE_PK,
-            'product_id'   => Schema::TYPE_INTEGER . ' NOT NULL',
-            'param_id'     => Schema::TYPE_INTEGER . ' NOT NULL',
-            'range_id'     => Schema::TYPE_INTEGER,
-            'param_value'  => Schema::TYPE_TEXT . ' NOT NULL',
+            'product_id'   => $this->integer()->notNull(),
+            'param_id'     => $this->integer()->notNull(),
+            'range_id'     => $this->integer()->notNull()->defaultValue(0),
+            'param_value'  => $this->text(),
+            'PRIMARY KEY (product_id, param_id, range_id)',
         ], $tableOptions);
         $this->createIndex('product_id', '{{%parameters_values}}', 'product_id', false);
         $this->createIndex('param_id', '{{%parameters_values}}', 'param_id', false);
         $this->addForeignKey('FK_parameters_values', '{{%parameters_values}}', 'param_id', '{{%parameters}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_parameters_product', '{{%parameters_values}}', 'product_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_parameters_product', '{{%parameters_values}}', 'product_id', '{{%products}}', 'id', 'RESTRICT', 'CASCADE');
     }
 
     public function safeDown()
     {
         $this->dropForeignKey('FK_parameters_range', '{{%parameters_range}}');
         $this->dropForeignKey('FK_parameters_values', '{{%parameters_values}}');
+        $this->dropForeignKey('FK_parameters_product', '{{%parameters_values}}');
 
         $this->dropTable('{{%parameters}}');
         $this->dropTable('{{%parameters_range}}');

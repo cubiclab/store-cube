@@ -28,6 +28,9 @@ return [
     'ATTR_UPDATED_AT'       => 'Изменено',
     'ATTR_CREATED_BY'       => 'Создано',
     'ATTR_UPDATED_BY'       => 'Изменено',
+    'ATTR_PRODUCT_ID'       => 'ID Товара',
+    'ATTR_IMAGE_URL'        => 'Ссылка изображения',
+    'ATTR_SLUG'             => 'SLUG',
 
     'PAGE_PRODUCTS'            => 'Товары',
     'PAGE_CREATE_PRODUCT'      => 'Создание товара',

@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pt1c
- * Date: 18.11.2015
- * Time: 8:10
- */
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m200809_000004_init_orders_table extends Migration
@@ -23,7 +16,7 @@ class m200809_000004_init_orders_table extends Migration
             'id'            => $this->primaryKey(),
             'delivery_id'   => $this->integer()->notNull(),
             'payment_id'    => $this->integer()->notNull(),
-            'status'        => $this->smallInteger(1)->notNull(),
+            'status'        => $this->smallInteger(1)->notNull()->defaultValue(0),
             'name'          => $this->string(64)->notNull(),
             'address'       => $this->string(255)->notNull(),
             'phone'         => $this->string(64)->notNull(),
@@ -31,11 +24,12 @@ class m200809_000004_init_orders_table extends Migration
             'comment'       => $this->string(1024)->notNull(),
             'access_token'  => $this->string(32)->notNull(),
             'ip'            => $this->string(16)->notNull(),
-            'created_at'    => $this->integer()->defaultValue(NULL),
-            'updated_at'    => $this->integer()->defaultValue(NULL),
-            'created_by'    => $this->integer()->defaultValue(NULL),
-            'updated_by'    => $this->integer()->defaultValue(NULL),
+            'created_at'    => $this->integer(),
+            'updated_at'    => $this->integer(),
+            'created_by'    => $this->integer(),
+            'updated_by'    => $this->integer(),
         ], $tableOptions);
+        $this->createIndex('access_token', '{{%orders}}', 'access_token', true);
 
         // Foreign Keys
         $this->addForeignKey('FK_orders_delivery', '{{%orders}}', 'delivery_id', '{{%dap_terms}}', 'id', 'RESTRICT', 'CASCADE');
@@ -49,6 +43,7 @@ class m200809_000004_init_orders_table extends Migration
             'options'       => $this->string(255),
             'price'         => $this->money(10,2),
             'discount'      => $this->money(10,2),
+            'PRIMARY KEY (order_id, product_id)',
         ], $tableOptions);
 
         // Foreign Keys
@@ -60,12 +55,10 @@ class m200809_000004_init_orders_table extends Migration
     {
         $this->dropForeignKey('FK_orders_delivery', '{{%orders}}');
         $this->dropForeignKey('FK_orders_payment', '{{%orders}}');
-
-        $this->dropTable('{{%orders}}');
-
         $this->dropForeignKey('FK_orders_orders', '{{%orders_products}}');
         $this->dropForeignKey('FK_orders_products', '{{%orders_products}}');
 
+        $this->dropTable('{{%orders}}');
         $this->dropTable('{{%orders_products}}');
     }
 

@@ -57,6 +57,7 @@ class Categories extends \yii\db\ActiveRecord
         return [
             'id'            => StoreCube::t('storecube', 'ATTR_ID'),
             'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
+            'slug'          => StoreCube::t('storecube', 'ATTR_SLUG'),
             'parent'        => StoreCube::t('storecube', 'ATTR_CAT_PARENT'),
             'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
             'icon'          => StoreCube::t('storecube', 'ATTR_ICON'),
@@ -71,9 +72,9 @@ class Categories extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getAll($prod_id = null){
+    public function getAll($product_id = null){
         $allCategories = $this->find()->all();
-        $selectedCategories = $this->getSelectedArray($prod_id);
+        $selectedCategories = $this->getSelectedArray($product_id);
 
         $models = [];
         foreach($allCategories as $category){
@@ -102,18 +103,18 @@ class Categories extends \yii\db\ActiveRecord
      */
     public function getCategoryProducts()
     {
-        return $this->hasMany(CategoryProduct::className(), ['cat_id' => 'id']);
+        return $this->hasMany(CategoryProduct::className(), ['category_id' => 'id']);
     }
 
-    public function getSelectedArray($prod_id)
+    public function getSelectedArray($product_id)
     {
         $query = (new Query)
             ->from(CategoryProduct::tableName())
-            ->where(['prod_id' => $prod_id]);
+            ->where(['product_id' => $product_id]);
 
         $items = [];
         foreach ($query->all($this->db) as $row) {
-            $items[] = (int)$row['cat_id'];
+            $items[] = (int)$row['category_id'];
         }
 
         return $items;

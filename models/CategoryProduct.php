@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "{{%category_product}}".
  *
  * @property integer $id
- * @property integer $cat_id
- * @property integer $prod_id
+ * @property integer $category_id
+ * @property integer $product_id
  *
  * @property Categories $cat
  * @property Products $prod
@@ -30,8 +30,8 @@ class CategoryProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cat_id', 'prod_id'], 'required'],
-            [['cat_id', 'prod_id'], 'integer']
+            [['category_id', 'product_id'], 'required'],
+            [['category_id', 'product_id'], 'integer']
         ];
     }
 
@@ -41,8 +41,8 @@ class CategoryProduct extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'cat_id' => 'Cat ID',
-            'prod_id' => 'Prod ID',
+            'category_id' => 'Cat ID',
+            'product_id' => 'Prod ID',
         ];
     }
 
@@ -51,7 +51,7 @@ class CategoryProduct extends \yii\db\ActiveRecord
      */
     public function getCat()
     {
-        return $this->hasOne(Categories::className(), ['id' => 'cat_id']);
+        return $this->hasOne(Categories::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -59,6 +59,6 @@ class CategoryProduct extends \yii\db\ActiveRecord
      */
     public function getProd()
     {
-        return $this->hasOne(Products::className(), ['id' => 'prod_id']);
+        return $this->hasOne(Products::className(), ['id' => 'product_id']);
     }
 }

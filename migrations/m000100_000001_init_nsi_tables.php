@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m000100_000001_init_nsi_tables extends Migration
@@ -69,6 +68,7 @@ class m000100_000001_init_nsi_tables extends Migration
     {
         $this->dropForeignKey('FK_currency_symbol', '{{%nsi_currency_symbol}}');
         $this->dropTable('{{%nsi_currency_symbol}}');
+        $this->dropTable('{{%nsi_currency}}');
     }
 
 }

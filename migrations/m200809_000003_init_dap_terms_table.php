@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m200809_000003_init_dap_terms_table extends Migration
@@ -21,9 +20,11 @@ class m200809_000003_init_dap_terms_table extends Migration
             'price'         => $this->money(10,2),
             'discount'      => $this->smallInteger(3),
             'icon'          => $this->string(32),
-            'status'        => $this->smallInteger(1)->notNull(),
+            'status'        => $this->smallInteger(1)->notNull()->defaultValue(1),
             'order'         => $this->integer(),
         ], $tableOptions);
+        $this->createIndex('order', '{{%dap_terms}}', ['type','order'], true);
+        $this->createIndex('status', '{{%dap_terms}}', 'status', false);
 
         //Fill Default Values
         $this->execute($this->fillDefaultDelivery());

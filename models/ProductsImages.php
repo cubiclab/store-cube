@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\models;
 
+use cubiclab\store\StoreCube;
 use Yii;
 use cubiclab\store\traits\ModuleTrait;
 use mongosoft\file\UploadImageBehavior;
@@ -10,7 +11,7 @@ use mongosoft\file\UploadImageBehavior;
  * This is the model class for table "products_images".
  *
  * @property integer $id
- * @property integer $prod_id
+ * @property integer $product_id
  * @property string $image_url
  *
  * @property Products $prod
@@ -33,8 +34,8 @@ class ProductsImages extends \yii\db\ActiveRecord
     {
         return [
             ['image_url', 'file', 'extensions' => 'jpg, jpeg, gif, png', 'skipOnEmpty'=>true, 'on' => ['insert', 'update']],
-            [['prod_id', 'image_url'], 'required'],
-            [['prod_id'], 'integer'],
+            [['product_id', 'image_url'], 'required'],
+            [['product_id'], 'integer'],
 
         ];
     }
@@ -45,9 +46,9 @@ class ProductsImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'prod_id' => 'Prod ID',
-            'image_url' => 'Image Url',
+            'id'            => StoreCube::t('storecube', 'ATTR_ID'),
+            'product_id'    => StoreCube::t('storecube', 'ATTR_PRODUCT_ID'),
+            'image_url'     => StoreCube::t('storecube', 'ATTR_IMAGE_URL'),
         ];
     }
 
@@ -71,6 +72,6 @@ class ProductsImages extends \yii\db\ActiveRecord
      */
     public function getProd()
     {
-        return $this->hasOne(Products::className(), ['id' => 'prod_id']);
+        return $this->hasOne(Products::className(), ['id' => 'product_id']);
     }
 }

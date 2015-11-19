@@ -15,6 +15,8 @@ use cubiclab\store\StoreCube;
  * @property integer $digit
  * @property string $is_range
  * @property string $icon
+ * @property string $status
+ * @property string $order
  *
  * @property ParametersRange[] $parametersRanges
  * @property ParametersValues[] $parametersValues

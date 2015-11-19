@@ -28,6 +28,9 @@ return [
     'ATTR_UPDATED_AT'        => 'Updated At',
     'ATTR_CREATED_BY'        => 'Created By',
     'ATTR_UPDATED_BY'        => 'Updated By',
+    'ATTR_PRODUCT_ID'        => 'Product ID',
+    'ATTR_IMAGE_URL'         => 'Image URL',
+    'ATTR_SLUG'              => 'SLUG',
 
     'PAGE_PRODUCTS'            => 'Products',
     'PAGE_CREATE_PRODUCT'      => 'Create product',

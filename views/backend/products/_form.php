@@ -41,7 +41,6 @@ use kartik\file\FileInput;
 
                         <?= $form->field($product, 'description')->textarea(['rows' => 8, 'placeholder' => 'Полное описание товара']) ?>
 
-                        <?= $form->field($product, 'price')->textInput(['maxlength' => true, 'placeholder' => 'Цена']) ?>
                     </div>
                     <div class="col-md-3">
                         <?=  \talma\widgets\JsTree::widget([

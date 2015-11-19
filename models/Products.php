@@ -30,6 +30,8 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
 
     private $_categories = [];
 
+    private $price;
+
     /**
      * @inheritdoc
      */
@@ -47,7 +49,6 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
             [['name', 'article'], 'required'],
             [['short_desc', 'description'], 'string'],
             [['name'], 'string', 'max' => 64],
-            [['price'], 'number']
         ];
     }
 
@@ -57,12 +58,12 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     public function attributeLabels()
     {
         return [
-            'id' => StoreCube::t('storecube', 'ATTR_ID'),
-            'article' => StoreCube::t('storecube', 'ATTR_ARTICLE'),
-            'name' => StoreCube::t('storecube', 'ATTR_NAME'),
-            'short_desc' => StoreCube::t('storecube', 'ATTR_SHORT_DESC'),
-            'description' => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
-            'price' => StoreCube::t('storecube', 'ATTR_PRICE'),
+            'id'            => StoreCube::t('storecube', 'ATTR_ID'),
+            'article'       => StoreCube::t('storecube', 'ATTR_ARTICLE'),
+            'name'          => StoreCube::t('storecube', 'ATTR_NAME'),
+            'short_desc'    => StoreCube::t('storecube', 'ATTR_SHORT_DESC'),
+            'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
+            'slug'          => StoreCube::t('storecube', 'ATTR_SLUG'),
         ];
     }
 
@@ -116,9 +117,9 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         if (!$data) return true;
         $data = explode(',', str_replace(['"','[',']'], '', $data));
 
-        foreach($data as $cat_id){
+        foreach($data as $category_id){
             $new_cat = new CategoryProduct();
-            $new_cat->cat_id = $cat_id;
+            $new_cat->category_id = $category_id;
             $this->_categories[] = $new_cat;
         }
         return true;
@@ -128,7 +129,7 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     {
 
         foreach ($this->_images as $image) {
-            $image->prod_id = $this->id;
+            $image->product_id = $this->id;
             $image->scenario = "insert";
             $image->save(true);
         }
@@ -138,12 +139,12 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
                 ParametersValues::deleteAll('product_id = :product_id AND param_id in (:param_id)', [':product_id' => $this->id, ':param_id' => $parameter->id]);
             }
             foreach ($this->_categories as $category) {
-                CategoryProduct::deleteAll('prod_id = :prod_id', [':prod_id' => $this->id]);
+                CategoryProduct::deleteAll('product_id = :product_id', [':product_id' => $this->id]);
             }
         }
 
         foreach ($this->_categories as $category) {
-            $category->prod_id = $this->id;
+            $category->product_id = $this->id;
             $category->save(true);
         }
 
@@ -195,7 +196,7 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
      */
     public function getCategoryProducts()
     {
-        return $this->hasMany(CategoryProduct::className(), ['prod_id' => 'id']);
+        return $this->hasMany(CategoryProduct::className(), ['product_id' => 'id']);
     }
 
     /**
@@ -211,18 +212,18 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
      */
     public function getProductsImages()
     {
-        return $this->hasMany(ProductsImages::className(), ['prod_id' => 'id']);
+        return $this->hasMany(ProductsImages::className(), ['product_id' => 'id']);
     }
 
     public function getProductsFirstImage()
     {
-        return $this->hasOne(ProductsImages::className(), ['prod_id' => 'id'])->orderBy('id');
+        return $this->hasOne(ProductsImages::className(), ['product_id' => 'id'])->orderBy('id');
     }
 
     //мне кажется это дублирование, надо переделать
     public function getImages()
     {
-        $this->_images = ProductsImages::findAll(['prod_id' => $this->id]);
+        $this->_images = ProductsImages::findAll(['product_id' => $this->id]);
         return $this->_images;
     }
 
@@ -236,9 +237,10 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
             $id = 0;
         }
         $this->_parameters = ParametersValues::find()
-            ->select('*, ' . ParametersValues::tableName() . '.id as pid')
+            ->select('*') // . ParametersValues::tableName() . '.id as pid')
             ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . $id)
             ->where(['a.status' => Parameters::STATUS_ACTIVE])
+            ->groupBy(['id'])
             ->orderBy('order')
             ->all();
 

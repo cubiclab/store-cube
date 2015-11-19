@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  */
 class ParametersValues extends \yii\db\ActiveRecord
 {
-    public $pid;
+    public $id;
     public $name;
     public $description;
     public $units;

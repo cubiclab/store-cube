@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m200809_000001_init_catalog_tables extends Migration
@@ -19,41 +18,48 @@ class m200809_000001_init_catalog_tables extends Migration
             'name'         => $this->string(64)->notNull(),
             'description'  => $this->text(),
             'icon'         => $this->string(32),
-            'status'       => $this->smallInteger(1)->notNull()->defaultValue(0),
+            'slug'         => $this->string(128),
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(1),
             'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('parent', '{{%categories}}', 'parent', false);
-		
+        $this->createIndex('slug', '{{%categories}}', 'slug', true);
+        $this->createIndex('order', '{{%categories}}', 'order', true);
+        $this->createIndex('status', '{{%categories}}', 'status', false);
+
         // Products table
         $this->createTable('{{%products}}', [
-            'id'           => Schema::TYPE_PK,
-            'article'      => Schema::TYPE_STRING . '(64) NOT NULL',
-            'name'         => Schema::TYPE_STRING . '(64) NOT NULL',
-            'short_desc'   => Schema::TYPE_TEXT    . ' NULL DEFAULT NULL',
-            'description'  => Schema::TYPE_TEXT   . ' NULL DEFAULT NULL',
-			'price'		   => Schema::TYPE_DECIMAL   . '(10, 2) NULL DEFAULT NULL'
+            'id'           => $this->primaryKey(),
+            'article'      => $this->string(64)->notNull(),
+            'name'         => $this->string(64)->notNull(),
+            'short_desc'   => $this->text(),
+            'description'  => $this->text(),
+            'slug'         => $this->string(128),
+            'status'       => $this->smallInteger(1)->notNull()->defaultValue(1),
+            'order'        => $this->integer(),
         ], $tableOptions);
         $this->createIndex('article', '{{%products}}', 'article', true);
+        $this->createIndex('slug', '{{%products}}', 'slug', true);
+        $this->createIndex('order', '{{%products}}', 'order', true);
+        $this->createIndex('status', '{{%products}}', 'status', false);
 
         // Category_Product table (Connection)
         $this->createTable('{{%category_product}}', [
-            'cat_id'       => Schema::TYPE_INTEGER . ' NOT NULL',
-            'prod_id'      => Schema::TYPE_INTEGER . ' NOT NULL'
+            'category_id'   => $this->integer()->notNull(),
+            'product_id'    => $this->integer()->notNull(),
+            'PRIMARY KEY (category_id, product_id)',
         ], $tableOptions);
-        $this->primaryKey('cat_id', 'prod_id');
-        $this->addForeignKey('FK_category', '{{%category_product}}', 'cat_id', '{{%categories}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_product', '{{%category_product}}', 'prod_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
-
+        $this->addForeignKey('FK_category', '{{%category_product}}', 'category_id', '{{%categories}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_product', '{{%category_product}}', 'product_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
 
         // Products images table
         $this->createTable('{{%products_images}}', [
-            'id'           => Schema::TYPE_PK,
-            'prod_id'      => Schema::TYPE_INTEGER . ' NOT NULL',
-            'image_url'    => Schema::TYPE_STRING  . '(128) NOT NULL'
+            'id'            => $this->primaryKey(),
+            'product_id'    => $this->integer()->notNull(),
+            'image_url'     => $this->string(128)->notNull(),
         ], $tableOptions);
-        $this->createIndex('prod_id', '{{%products_images}}', 'prod_id', false);
-        $this->addForeignKey('FK_products_images', '{{%products_images}}', 'prod_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
-
+        $this->createIndex('product_id', '{{%products_images}}', 'product_id', false);
+        $this->addForeignKey('FK_products_images', '{{%products_images}}', 'product_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
