@@ -2,15 +2,16 @@
 
 namespace cubiclab\store\controllers\backend;
 
-use cubiclab\store\models\CategoryTree;
+
 use Yii;
-use cubiclab\store\models\Categories;
-use cubiclab\store\models\search\CategoriesSearch;
+
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\filters\VerbFilter;
 use cubiclab\admin\components\Controller;
+use cubiclab\store\models\Categories;
+use cubiclab\store\models\search\CategoriesSearch;
 
 /**
  * CategoriesController implements the CRUD actions for Categories model.
@@ -54,6 +55,7 @@ class CategoriesController extends Controller
                 'mass-delete' => ['post', 'delete']
             ]
         ];
+
         return $behaviors;
     }
 
@@ -65,10 +67,12 @@ class CategoriesController extends Controller
     {
         $searchModel = new CategoriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $statusArray = Categories::getStatusArray();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statusArray' => $statusArray,
         ]);
     }
 
@@ -109,6 +113,8 @@ class CategoriesController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'statusArray' => Categories::getStatusArray(),
+                'parentsArray' => Categories::getParentsArray(),
             ]);
         }
     }
@@ -128,6 +134,8 @@ class CategoriesController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'statusArray' => Categories::getStatusArray(),
+                'parentsArray' => Categories::getParentsArray(),
             ]);
         }
     }

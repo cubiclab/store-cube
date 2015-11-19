@@ -24,6 +24,11 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
 {
     use CartPositionTrait;
 
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
     private $_images = [];
 
     private $_parameters = [];
@@ -226,6 +231,13 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         $this->_images = ProductsImages::findAll(['product_id' => $this->id]);
         return $this->_images;
     }
+
+    public function getProductsCategories()
+    {
+        return $this->hasMany(Categories::className(), ['id' => 'category_id'])
+            ->viaTable(CategoryProduct::tableName(), ['product_id' => 'id']);
+    }
+
 
     public function getAllParameters()
     {

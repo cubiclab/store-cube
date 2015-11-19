@@ -51,6 +51,7 @@ return [
     'PAGE_CREATE_PRICE_TYPES'  => 'Create Price type',
     'PAGE_UPDATE_PRICE_TYPES'  => 'Update Price type',
 
+    'PARENT_PROMT'             => '-- Parent Category --',
     'STATUS_PROMT'             => '-- Status --',
     'STATUS_BLANK'             => 'BLANK',
     'STATUS_PENDING'           => 'PENDING',
@@ -60,6 +61,8 @@ return [
     'STATUS_RETURNED'          => 'RETURNED',
     'STATUS_ERROR'             => 'ERROR',
     'STATUS_COMPLETED'         => 'COMPLETED',
+    'STATUS_INACTIVE'          => 'INACTIVE',
+    'STATUS_ACTIVE'            => 'ACTIVE',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Product successfully created.',
     'PRODUCT_CREATE_FAIL'       => 'Error creating product.',

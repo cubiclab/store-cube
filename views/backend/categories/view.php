@@ -30,6 +30,7 @@ echo DetailView::widget([
         'id',
         'parent',
         'name',
+        'slug',
         'description:ntext',
         'icon',
         'status',

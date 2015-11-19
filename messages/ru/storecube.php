@@ -51,6 +51,7 @@ return [
     'PAGE_CREATE_PRICE_TYPES'  => 'Создание типа цены',
     'PAGE_UPDATE_PRICE_TYPES'  => 'Изменение типа цены',
 
+    'PARENT_PROMT'             => '-- Родительская категория --',
     'STATUS_PROMT'             => '-- Статус --',
     'STATUS_BLANK'             => 'Зарезервирован',
     'STATUS_PENDING'           => 'В обработке',
@@ -60,6 +61,8 @@ return [
     'STATUS_RETURNED'          => 'Возврат',
     'STATUS_ERROR'             => 'Ошибка',
     'STATUS_COMPLETED'         => 'Выполнен',
+    'STATUS_INACTIVE'          => 'Неактивно',
+    'STATUS_ACTIVE'            => 'Активно',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Товарная позиция успешно создана.',
     'PRODUCT_CREATE_FAIL'       => 'Ошибка при создании товарной позиции.',

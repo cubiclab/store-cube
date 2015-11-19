@@ -27,6 +27,8 @@ class Categories extends \yii\db\ActiveRecord
     /** Active status */
     const STATUS_ACTIVE = 1;
 
+    public $parent_name;
+
     /**
      * @inheritdoc
      */
@@ -42,10 +44,11 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             [['parent', 'status'], 'integer'],
-            [['name', 'status'], 'required'],
-            [['description'], 'string'],
+            [['name'], 'required'],
+            [['description','slug'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['icon'], 'string', 'max' => 32],
+            [['slug'], 'string', 'max' => 128],
         ];
     }
 
@@ -62,6 +65,7 @@ class Categories extends \yii\db\ActiveRecord
             'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
             'icon'          => StoreCube::t('storecube', 'ATTR_ICON'),
             'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
+            'order'         => StoreCube::t('storecube', 'ATTR_ORDER'),
         ];
     }
 
@@ -70,6 +74,21 @@ class Categories extends \yii\db\ActiveRecord
         return [
             SortableModel::className(),
         ];
+    }
+
+    /** @return array Status array. */
+    public static function getStatusArray(){
+        return [
+            self::STATUS_INACTIVE   => StoreCube::t('storecube', 'STATUS_INACTIVE'),
+            self::STATUS_ACTIVE     => StoreCube::t('storecube', 'STATUS_ACTIVE'),
+        ];
+    }
+
+    /** @return string Model status. */
+    public function getStatusName()
+    {
+        $states = self::getStatusArray();
+        return !empty($states[$this->status]) ? $states[$this->status] : $this->status;
     }
 
     public function getAll($product_id = null){
@@ -98,14 +117,6 @@ class Categories extends \yii\db\ActiveRecord
         return $models;
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategoryProducts()
-    {
-        return $this->hasMany(CategoryProduct::className(), ['category_id' => 'id']);
-    }
-
     public function getSelectedArray($product_id)
     {
         $query = (new Query)
@@ -118,5 +129,32 @@ class Categories extends \yii\db\ActiveRecord
         }
 
         return $items;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoryProducts()
+    {
+        return $this->hasMany(CategoryProduct::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoriesParent()
+    {
+        return $this->hasOne(Categories::className(), ['id' => 'parent']);
+    }
+
+    public static function getParentsArray(){
+        $parentsArray=[];
+
+        $parents = Categories::find()->where(['status' => Categories::STATUS_ACTIVE])->all();
+        foreach($parents as $parent){
+            $parentsArray[$parent->id] = $parent->name;
+        }
+
+        return $parentsArray;
     }
 }

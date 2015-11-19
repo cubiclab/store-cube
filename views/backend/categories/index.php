@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
 use yii\grid\ActionColumn;
+use cubiclab\store\StoreCube;
 use cubiclab\admin\widgets\Panel;
 
 $this->title = Yii::t('storecube', 'PAGE_CATEGORIES');
@@ -63,14 +64,39 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
         [
             'class' => CheckboxColumn::classname()
         ],
-
-        'id',
-        'parent',
         'name',
+        'slug',
+        [
+            'attribute' => 'parent',
+            'format' => 'html',
+            'value' => function ($model) {
+                if($model->categoriesParent){
+                    return $model->categoriesParent->name;
+                }
+                else {
+                    return '';
+                }
+            }
+        ],
         'description:ntext',
-        'icon',
-        // 'status',
-        // 'order',
+        [
+            'attribute' => 'status',
+            'format' => 'html',
+            'value' => function ($model) {
+                switch($model->status){
+                    case $model::STATUS_INACTIVE;   $class = 'label-danger';   break;
+                    case $model::STATUS_ACTIVE;     $class = 'label-success';    break;
+                    default: $class = 'label-default'; break;
+                }
+                return '<span class="label ' . $class . '">' . $model->statusName . '</span>';
+            },
+            'filter' => Html::activeDropDownList(
+                $searchModel,
+                'status',
+                $statusArray,
+                ['class' => 'form-control', 'prompt' => StoreCube::t('storecube', 'STATUS_PROMT')]
+            )
+        ],
 
         $gridActionsColumn,
     ],
