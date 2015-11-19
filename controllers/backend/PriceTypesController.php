@@ -2,6 +2,8 @@
 
 namespace cubiclab\store\controllers\backend;
 
+use cubiclab\store\models\NsiCurrency;
+use cubiclab\store\models\NsiCurrencySymbol;
 use Yii;
 use cubiclab\store\models\PriceTypes;
 use cubiclab\store\models\search\PriceTypesSearch;
@@ -67,6 +69,9 @@ class PriceTypesController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'currencyCodeArray' => NsiCurrency::getCurrencyCodeArray(),
+                'currencySymbolArray' => NsiCurrencySymbol::getCurrencySymbolArray(),
+                'statusArray' => PriceTypes::getStatusArray(),
             ]);
         }
     }
@@ -86,6 +91,9 @@ class PriceTypesController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'currencyCodeArray' => NsiCurrency::getCurrencyCodeArray(),
+                'currencySymbolArray' => NsiCurrencySymbol::getCurrencySymbolArray(),
+                'statusArray' => PriceTypes::getStatusArray(),
             ]);
         }
     }

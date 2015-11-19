@@ -31,6 +31,7 @@ class StoreCube extends BaseCube //implements BootstrapInterface
             ['label' => 'DAP Terms', 'url' => ['/admin/store/dap-terms']],
             ['label' => 'Categories', 'url' => ['/admin/store/categories']],
             ['label' => 'Parameters', 'url' => ['/admin/store/parameters']],
+            ['label' => 'Price Types', 'url' => ['/admin/store/price-types']],
         ]];
 
     /** @inheritdoc */

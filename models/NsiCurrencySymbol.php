@@ -62,4 +62,15 @@ class NsiCurrencySymbol extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PriceTypes::className(), ['currency_code' => 'currency_code', 'currency_symbol' => 'currency_symbol']);
     }
+
+    public static function getCurrencySymbolArray(){
+        $symbolsArray=[];
+
+        $symbols = NsiCurrencySymbol::find()->all();
+        foreach($symbols as $symbol){
+            $symbolsArray[$symbol->currency_symbol] = $symbol->currency_symbol;
+        }
+
+        return $symbolsArray;
+    }
 }

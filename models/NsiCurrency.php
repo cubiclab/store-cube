@@ -66,4 +66,15 @@ class NsiCurrency extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PriceTypes::className(), ['currency_code' => 'currency_code']);
     }
+
+    public static function getCurrencyCodeArray(){
+        $codeArray=[];
+
+        $codes = NsiCurrency::find()->all();
+        foreach($codes as $code){
+            $codeArray[$code->currency_code] = $code->currency_name;
+        }
+
+        return $codeArray;
+    }
 }

@@ -19,6 +19,9 @@ echo $this->render(
     '_form',
     [
         'model' => $model,
+        'currencyCodeArray' => $currencyCodeArray,
+        'currencySymbolArray' => $currencySymbolArray,
+        'statusArray' => $statusArray,
     ]
 );
 

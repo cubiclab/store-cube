@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\models;
 
+use cubiclab\store\StoreCube;
 use Yii;
 
 /**
@@ -27,6 +28,11 @@ use Yii;
  */
 class PriceTypes extends \yii\db\ActiveRecord
 {
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
@@ -105,4 +111,21 @@ class PriceTypes extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Products::className(), ['id' => 'product_id'])->viaTable('{{%prices}}', ['price_type_id' => 'id']);
     }
+
+
+    /** @return array Status array. */
+    public static function getStatusArray(){
+        return [
+            self::STATUS_INACTIVE   => StoreCube::t('storecube', 'STATUS_INACTIVE'),
+            self::STATUS_ACTIVE     => StoreCube::t('storecube', 'STATUS_ACTIVE'),
+        ];
+    }
+
+    /** @return string Model status. */
+    public function getStatusName()
+    {
+        $states = self::getStatusArray();
+        return !empty($states[$this->status]) ? $states[$this->status] : $this->status;
+    }
+
 }
