@@ -47,6 +47,9 @@ return [
     'PAGE_ORDERS'              => 'Заказы',
     'PAGE_CREATE_ORDERS'       => 'Создание заказа',
     'PAGE_UPDATE_ORDERS'       => 'Изменение заказа',
+    'PAGE_PRICE_TYPES'         => 'Тип цены',
+    'PAGE_CREATE_PRICE_TYPES'  => 'Создание типа цены',
+    'PAGE_UPDATE_PRICE_TYPES'  => 'Изменение типа цены',
 
     'STATUS_PROMT'             => '-- Статус --',
     'STATUS_BLANK'             => 'Зарезервирован',

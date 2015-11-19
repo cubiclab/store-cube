@@ -36,6 +36,12 @@ class m200809_000000_init_store extends Migration
             'ACPProductsCreate' => 'Can create Products',
             'ACPProductsUpdate' => 'Can update Products',
             'ACPProductsDelete' => 'Can delete Products',
+            //Products
+            'ACPPriceTypesView' => 'Can view PriceTypes',
+            'ACPPriceTypesCreate' => 'Can create PriceTypes',
+            'ACPPriceTypesUpdate' => 'Can update PriceTypes',
+            'ACPPriceTypesDelete' => 'Can delete PriceTypes',
+
         ];
 
         foreach ($permissions as $permission => $description) {
@@ -64,6 +70,9 @@ class m200809_000000_init_store extends Migration
                 'ACPProductsCreate',
                 'ACPProductsUpdate',
                 'ACPProductsDelete',
+                'ACPPriceTypesCreate',
+                'ACPPriceTypesUpdate',
+                'ACPPriceTypesDelete',
             ],
             'Moderator' => [
                 'ACPCategoriesView',
@@ -72,6 +81,7 @@ class m200809_000000_init_store extends Migration
                 'ACPOrdersUpdate',
                 'ACPParametersView',
                 'ACPProductsView',
+                'ACPPriceTypesView',
             ],
         ];
         foreach ($roles_permissions as $role => $permissions) {
