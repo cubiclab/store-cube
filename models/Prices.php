@@ -2,7 +2,10 @@
 
 namespace cubiclab\store\models;
 
+use cubiclab\store\StoreCube;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%prices}}".
@@ -10,17 +13,15 @@ use Yii;
  * @property integer $product_id
  * @property integer $price_type_id
  * @property string $price
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $created_by
- * @property integer $updated_by
  *
  * @property Products $product
  * @property PriceTypes $priceType
  */
 class Prices extends \yii\db\ActiveRecord
 {
+    public $id;
+    public $name;
+
     /**
      * @inheritdoc
      */
@@ -36,7 +37,7 @@ class Prices extends \yii\db\ActiveRecord
     {
         return [
             [['product_id', 'price_type_id'], 'required'],
-            [['product_id', 'price_type_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['product_id', 'price_type_id'], 'integer'],
             [['price'], 'number'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['price_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => PriceTypes::className(), 'targetAttribute' => ['price_type_id' => 'id']],
@@ -49,14 +50,9 @@ class Prices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'product_id' => Yii::t('app', 'Product ID'),
-            'price_type_id' => Yii::t('app', 'Price Type ID'),
-            'price' => Yii::t('app', 'Price'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
+            'product_id'    => StoreCube::t('storecube', 'ATTR_PRODUCT_ID'),
+            'price_type_id' => StoreCube::t('storecube', 'ATTR_PRICE TYPE_ID'),
+            'price'         => StoreCube::t('storecube', 'ATTR_PRICE'),
         ];
     }
 

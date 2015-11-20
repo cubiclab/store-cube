@@ -31,6 +31,9 @@ return [
     'ATTR_PRODUCT_ID'       => 'ID Товара',
     'ATTR_IMAGE_URL'        => 'Ссылка изображения',
     'ATTR_SLUG'             => 'SLUG',
+    'ATTR_CURRENCY CODE'    => 'Валюта',
+    'ATTR_CURRENCY SYMBOL'  => 'Символ валюты',
+    'ATTR_DATA'             => 'Дополнительные данные*',
 
     'PAGE_PRODUCTS'            => 'Товары',
     'PAGE_CREATE_PRODUCT'      => 'Создание товара',
@@ -63,9 +66,13 @@ return [
     'STATUS_COMPLETED'         => 'Выполнен',
     'STATUS_INACTIVE'          => 'Неактивно',
     'STATUS_ACTIVE'            => 'Активно',
+    'STATUS_DEFAULT_PRICE'     => 'Цена по умолчанию',
+    'STATUS_ON_RBAC'           => 'Основана на правах доступа',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Товарная позиция успешно создана.',
     'PRODUCT_CREATE_FAIL'       => 'Ошибка при создании товарной позиции.',
     'PRODUCT_UPDATE_SUCCESS'    => 'Товарная позиция успешно обновлена.',
     'PRODUCT_UPDATE_FAIL'       => 'Ошибка при обновалении товарной позиции.',
+
+    'VALIDATE_DEFAULT_PRICE'    => 'Данный статус может быть единственным в системе',
 ];

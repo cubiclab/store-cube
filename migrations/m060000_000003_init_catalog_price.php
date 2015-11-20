@@ -36,18 +36,12 @@ class m060000_000003_init_catalog_price extends Migration
             'product_id'    => $this->integer()->notNull(),
             'price_type_id' => $this->integer()->notNull(),
             'price'         => $this->money(10,2),
-            'status'        => $this->smallInteger(1)->notNull()->defaultValue(1),
-            'created_at'    => $this->integer(),
-            'updated_at'    => $this->integer(),
-            'created_by'    => $this->integer(),
-            'updated_by'    => $this->integer(),
             'PRIMARY KEY (product_id, price_type_id)',
         ], $tableOptions);
-        $this->createIndex('status', '{{%prices}}', 'status', false);
 
         // Foreign Keys
         $this->addForeignKey('FK_prices_types', '{{%prices}}', 'price_type_id', '{{%price_types}}', 'id', 'RESTRICT', 'CASCADE');
-        $this->addForeignKey('FK_prices_products', '{{%prices}}', 'product_id', '{{%products}}', 'id', 'RESTRICT', 'CASCADE');
+        $this->addForeignKey('FK_prices_products', '{{%prices}}', 'product_id', '{{%products}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()

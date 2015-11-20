@@ -35,6 +35,8 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
 
     private $_categories = [];
 
+    private $_prices = [];
+
     private $price;
 
     /**
@@ -130,6 +132,22 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         return true;
     }
 
+    public function load_prices($data)
+    {
+        //если ничего не передано возвращаем true
+        if (!$data) return true;
+        //Создаем новые модели Price
+        foreach($data as $key => $price){
+            if(!empty($price)){
+                $price_model = new Prices();
+                $price_model->price_type_id = $key;
+                $price_model->price = $price;
+                $this->_prices[] = $price_model;
+            }
+        }
+        return true;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
 
@@ -140,12 +158,21 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         }
 
         if (!$insert) {
-            foreach ($this->_parameters as $parameter) {
-                ParametersValues::deleteAll('product_id = :product_id AND param_id in (:param_id)', [':product_id' => $this->id, ':param_id' => $parameter->id]);
-            }
-            foreach ($this->_categories as $category) {
+            //foreach ($this->_parameters as $parameter) {
+                //ParametersValues::deleteAll('product_id = :product_id AND param_id in (:param_id)', [':product_id' => $this->id, ':param_id' => $parameter->id]);
+                ParametersValues::deleteAll('product_id = :product_id', [':product_id' => $this->id]);
+            //}
+            //foreach ($this->_categories as $category) {
                 CategoryProduct::deleteAll('product_id = :product_id', [':product_id' => $this->id]);
-            }
+            //}
+            //foreach ($this->_prices as $price) {
+                Prices::deleteAll('product_id = :product_id', [':product_id' => $this->id]);
+            //}
+        }
+
+        foreach ($this->_prices as $price) {
+            $price->product_id = $this->id;
+            $price->save(true);
         }
 
         foreach ($this->_categories as $category) {
@@ -238,7 +265,6 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
             ->viaTable(CategoryProduct::tableName(), ['product_id' => 'id']);
     }
 
-
     public function getAllParameters()
     {
         if($this->_parameters) return $this->_parameters;
@@ -250,13 +276,42 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         }
         $this->_parameters = ParametersValues::find()
             ->select('*') // . ParametersValues::tableName() . '.id as pid')
-            ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . $id)
+            ->rightJoin(Parameters::tableName() . ' as a', ParametersValues::tableName() . '.`param_id` = `a`.`id` AND ' . ParametersValues::tableName() . '.product_id = ' . (int)$id)
             ->where(['a.status' => Parameters::STATUS_ACTIVE])
             ->groupBy(['id'])
             ->orderBy('order')
             ->all();
 
         return $this->_parameters;
+    }
+
+    public function getAllPrices()
+    {
+        if($this->_prices) return $this->_prices;
+
+        if ($this->id) {
+            $id = $this->id;
+        } else {
+            $id = 0;
+        }
+
+        $this->_prices = Prices::find()
+            ->select('*')
+            ->rightJoin(PriceTypes::tableName() . ' as price_types',  Prices::tableName() . '.price_type_id = price_types.id AND '.Prices::tableName() .'.product_id ='. (int)$id)
+            ->where('price_types.status != :status', ['status'=>PriceTypes::STATUS_INACTIVE])
+            ->orderBy('price_types.order')
+            ->all();
+
+/*        $this->_prices = PriceTypes::find()
+            ->where(PriceTypes::tableName().'.status != :status', ['status'=>PriceTypes::STATUS_INACTIVE])
+            ->orderBy('price_types.order')
+            ->joinWith(['prices'=>function($query) use ($id) {
+                if($id){
+                    return $query->where(Prices::tableName().'.product_id=:product_id', [':product_id' => $id]);
+                }
+            }])->all();*/
+
+        return $this->_prices;
     }
 
     public function getPrice()

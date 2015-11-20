@@ -63,10 +63,13 @@ return [
     'STATUS_COMPLETED'         => 'COMPLETED',
     'STATUS_INACTIVE'          => 'INACTIVE',
     'STATUS_ACTIVE'            => 'ACTIVE',
+    'STATUS_DEFAULT_PRICE'     => 'Default Price',
+    'STATUS_ON_RBAC'           => 'Based on RBAC',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Product successfully created.',
     'PRODUCT_CREATE_FAIL'       => 'Error creating product.',
     'PRODUCT_UPDATE_SUCCESS'    => 'Product successfully updated.',
     'PRODUCT_UPDATE_FAIL'       => 'Error updating product.',
 
+    'VALIDATE_DEFAULT_PRICE'    => 'ƒанный статус может быть единственным в системе',
 ];

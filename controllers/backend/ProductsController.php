@@ -96,6 +96,7 @@ class ProductsController extends Controller
             && $product->load_images(Yii::$app->request->post())
             && $product->load_parameters(Yii::$app->request->post('ParametersValues'))
             && $product->load_categories(Yii::$app->request->post('cat_tree'))
+            && $product->load_prices(Yii::$app->request->post('Prices'))
         ) {
             if ($product->validate()) {
                 if ($product->save(false)) {
@@ -133,6 +134,7 @@ class ProductsController extends Controller
             && $product->load_images(Yii::$app->request->post())
             && $product->load_parameters(Yii::$app->request->post('ParametersValues'))
             && $product->load_categories(Yii::$app->request->post('cat_tree'))
+            && $product->load_prices(Yii::$app->request->post('Prices'))
         ) {
             if ($product->validate()) {
                 if ($product->save(false)) {

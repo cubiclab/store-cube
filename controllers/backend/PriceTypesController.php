@@ -2,30 +2,58 @@
 
 namespace cubiclab\store\controllers\backend;
 
-use cubiclab\store\models\NsiCurrency;
-use cubiclab\store\models\NsiCurrencySymbol;
 use Yii;
-use cubiclab\store\models\PriceTypes;
-use cubiclab\store\models\search\PriceTypesSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use cubiclab\admin\components\Controller;
+use cubiclab\store\models\PriceTypes;
+use cubiclab\store\models\search\PriceTypesSearch;
+use cubiclab\store\models\NsiCurrency;
+use cubiclab\store\models\NsiCurrencySymbol;
 
 /**
  * PriceTypesController implements the CRUD actions for PriceTypes model.
  */
 class PriceTypesController extends Controller
 {
+    /** @inheritdoc */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+        $behaviors = parent::behaviors();
+        $behaviors['access']['rules'] = [
+            [
+                'allow' => true,
+                'actions' => ['index', 'view'],
+                'roles' => ['ACPPriceTypesView']
+            ]
         ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['create'],
+            'roles' => ['ACPPriceTypesCreate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['update'],
+            'roles' => ['ACPPriceTypesUpdate']
+        ];
+        $behaviors['access']['rules'][] = [
+            'allow' => true,
+            'actions' => ['delete', 'mass-delete'],
+            'roles' => ['ACPPriceTypesDelete']
+        ];
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'index' => ['get'],
+                'create' => ['get', 'post'],
+                'update' => ['get', 'put', 'post'],
+                'delete' => ['post', 'delete'],
+                'mass-delete' => ['post', 'delete']
+            ]
+        ];
+
+        return $behaviors;
     }
 
     /**
@@ -40,6 +68,7 @@ class PriceTypesController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statusArray' => PriceTypes::getStatusArray(),
         ]);
     }
 

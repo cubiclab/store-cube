@@ -41,6 +41,7 @@ use kartik\file\FileInput;
 
                         <?= $form->field($product, 'description')->textarea(['rows' => 8, 'placeholder' => 'Полное описание товара']) ?>
 
+                        <?= ProductHelper::getPricesFields($form, $product); ?>
                     </div>
                     <div class="col-md-3">
                         <?=  \talma\widgets\JsTree::widget([
@@ -61,7 +62,7 @@ use kartik\file\FileInput;
             </div>
             <div class="tab-pane fade" id="parameters">
                 <br>
-                <?= ProductHelper::getParamFields2($form, $product); ?>
+                <?= ProductHelper::getParameterFields($form, $product); ?>
             </div>
             <div class="tab-pane fade" id="images_upload">
                 <br>

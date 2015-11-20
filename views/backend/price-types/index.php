@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\grid\CheckboxColumn;
 use yii\grid\ActionColumn;
 use cubiclab\admin\widgets\Panel;
+use cubiclab\store\StoreCube;
 
 $this->title = Yii::t('storecube', 'PAGE_PRICE_TYPES');
 $this->params['breadcrumbs'][] = $this->title;
@@ -45,13 +46,31 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
+        ['class' => 'yii\grid\CheckboxColumn'],
 
-        'id',
         'name',
         'currency_code',
         'currency_symbol',
-        'data',
+        [
+            'attribute' => 'status',
+            'format' => 'html',
+            'value' => function ($model) {
+                switch($model->status){
+                    case $model::STATUS_INACTIVE;       $class = 'label-danger';    break;
+                    case $model::STATUS_ACTIVE;         $class = 'label-success';   break;
+                    case $model::STATUS_DEFAULT_PRICE;  $class = 'label-primary';      break;
+                    default: $class = 'label-default'; break;
+                }
+                return '<span class="label ' . $class . '">' . $model->statusName . '</span>';
+            },
+            'filter' => Html::activeDropDownList(
+                $searchModel,
+                'status',
+                $statusArray,
+                ['class' => 'form-control', 'prompt' => StoreCube::t('storecube', 'STATUS_PROMT')]
+            )
+        ],
+
         // 'icon',
         // 'status',
         // 'order',

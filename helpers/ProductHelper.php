@@ -9,6 +9,7 @@
 namespace cubiclab\store\helpers;
 
 use cubiclab\store\models\ParametersValues;
+use cubiclab\store\models\Prices;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
@@ -17,7 +18,7 @@ use cubiclab\store\models\ParametersRange;
 
 class ProductHelper
 {
-    public static function getParamFields2($form, $product)
+    public static function getParameterFields($form, $product)
     {
         $return = '';
 
@@ -56,7 +57,19 @@ class ProductHelper
         return $return;
     }
 
-    public static function getMultiplyOutput($form, $product)
+    public static function getPricesFields($form, $product)
+    {
+        $return = '';
+        foreach ($product->allPrices as $price) {
+            $return .= $form->field($price, 'price')
+                ->textInput(['name' => 'Prices[' . $price->id . ']', 'placeholder' => $price->name])
+                ->label($price->name);
+        }
+        return $return;
+    }
+
+
+    public static function getMultiplyOutput_DELETE($form, $product)
     {
         $return = '';
 
