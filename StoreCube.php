@@ -17,8 +17,8 @@ class StoreCube extends BaseCube //implements BootstrapInterface
     public static $name = 'store';
 
     public $image_placeholder = "@static/images/product.jpg";
-    public $image_path = "@static/upload/products/{prod_id}";
-    public $image_url = "@static_url/upload/products/{prod_id}";
+    public $image_path = "@static/upload/products/{product_id}";
+    public $image_url = "@static_url/upload/products/{product_id}";
     public $image_thumbs = [
         'thumb' => ['width' => 400, 'quality' => 90],
         'preview' => ['width' => 200, 'height' => 200],
