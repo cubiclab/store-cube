@@ -49,7 +49,7 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
         [
             'class' => CheckboxColumn::classname()
         ],
-        'id',
+        'article',
         'name',
         'short_desc:ntext',
 
