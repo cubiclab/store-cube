@@ -22,6 +22,18 @@ use cubiclab\store\StoreCube;
  */
 class DapTerms extends \yii\db\ActiveRecord
 {
+
+    /** Type Delivery */
+    const TYPE_DELIVERY = 'delivery';
+    /** Type Payment */
+    const TYPE_PAYMENT = 'payment';
+
+    /** Inactive status */
+    const STATUS_INACTIVE = 0;
+    /** Active status */
+    const STATUS_ACTIVE = 1;
+
+
     /**
      * @inheritdoc
      */
@@ -71,4 +83,5 @@ class DapTerms extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Orders::className(), ['dap_id' => 'id']);
     }
+
 }

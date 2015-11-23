@@ -56,9 +56,9 @@ return [
 
     'PARENT_PROMT'             => '-- Родительская категория --',
     'STATUS_PROMT'             => '-- Статус --',
-    'STATUS_BLANK'             => 'Зарезервирован',
+    'STATUS_BLANK'             => 'Новый заказ',
     'STATUS_PENDING'           => 'В обработке',
-    'STATUS_PROCESSED'         => 'Обработан',
+    'STATUS_PROCESSED'         => 'Подтвержден',
     'STATUS_DECLINED'          => 'Не подтвержден',
     'STATUS_SENDED'            => 'В доставке',
     'STATUS_RETURNED'          => 'Возврат',

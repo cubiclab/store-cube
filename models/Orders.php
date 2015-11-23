@@ -50,14 +50,12 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery_id', 'payment_id', 'status', 'name', 'address', 'phone', 'email', 'comment', 'access_token', 'ip'], 'required'],
-            [['delivery_id', 'payment_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['delivery_id', 'payment_id', 'name', 'address', 'phone', 'email', 'comment'], 'required'],
+            [['delivery_id', 'payment_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['name', 'phone'], 'string', 'max' => 64],
             [['address'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 128],
             [['comment'], 'string', 'max' => 1024],
-            [['access_token'], 'string', 'max' => 32],
-            [['ip'], 'string', 'max' => 16],
             [['delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['delivery_id' => 'id']],
             [['payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => DapTerms::className(), 'targetAttribute' => ['payment_id' => 'id']],
         ];
@@ -119,5 +117,20 @@ class Orders extends \yii\db\ActiveRecord
     public function getPayment()
     {
         return $this->hasOne(DapTerms::className(), ['id' => 'payment_id']);
+    }
+
+    /** @inheritdoc */
+    public function beforeSave($insert){
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                if (!$this->status) {
+                    $this->status = self::STATUS_BLANK;
+                }
+                $this->access_token = Yii::$app->security->generateRandomKey($length = 32);
+                $this->ip = Yii::$app->request->userIP;
+            }
+            return true;
+        }
+        return false;
     }
 }
