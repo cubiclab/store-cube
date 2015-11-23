@@ -314,9 +314,21 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
         return $this->_prices;
     }
 
+    public function getProductsPrices()
+    {
+        return $this->hasOne(Prices::className(), ['product_id' => 'id'])
+            ->joinWith(['priceType'=>function($query){
+                return $query->where('status = :status', ['status'=>PriceTypes::STATUS_DEFAULT_PRICE]);
+            }]);
+    }
+
     public function getPrice()
     {
-        return $this->price;
+        if($this->productsPrices){
+            return $this->productsPrices->price;
+        } else {
+            return '0.00';
+        }
     }
 
     public function getId()
