@@ -46,22 +46,42 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
-
-        'id',
-         [
+        [
+            'attribute' => 'id',
+            'value' => function ($model) {return sprintf('%05d', $model->id);},
+        ],
+        [
             'attribute' => 'status',
             'format' => 'html',
             'value' => function ($model) {
-                switch($model->status){
-                    case $model::STATUS_BLANK;      $class = 'label-default';   break;
-                    case $model::STATUS_PENDING;    $class = 'label-info';      break;
-                    case $model::STATUS_PROCESSED;  $class = 'label-primary';   break;
-                    case $model::STATUS_DECLINED;   $class = 'label-danger';    break;
-                    case $model::STATUS_SENDED;     $class = 'label-primary';   break;
-                    case $model::STATUS_RETURNED;   $class = 'label-danger';    break;
-                    case $model::STATUS_ERROR;      $class = 'label-danger';    break;
-                    case $model::STATUS_COMPLETED;  $class = 'label-success';   break;
-                    default: $class = 'label-default'; break;
+                switch ($model->status) {
+                    case $model::STATUS_BLANK;
+                        $class = 'label-default';
+                        break;
+                    case $model::STATUS_PENDING;
+                        $class = 'label-info';
+                        break;
+                    case $model::STATUS_PROCESSED;
+                        $class = 'label-primary';
+                        break;
+                    case $model::STATUS_DECLINED;
+                        $class = 'label-danger';
+                        break;
+                    case $model::STATUS_SENDED;
+                        $class = 'label-primary';
+                        break;
+                    case $model::STATUS_RETURNED;
+                        $class = 'label-danger';
+                        break;
+                    case $model::STATUS_ERROR;
+                        $class = 'label-danger';
+                        break;
+                    case $model::STATUS_COMPLETED;
+                        $class = 'label-success';
+                        break;
+                    default:
+                        $class = 'label-default';
+                        break;
                 }
                 return '<span class="label ' . $class . '">' . $model->statusName . '</span>';
             },
@@ -81,7 +101,7 @@ $panelButtons = !empty($panelButtons) ? implode(' ', $panelButtons) : null; ?>
         // 'comment',
         // 'access_token',
         // 'ip',
-        // 'created_at',
+         'created_at:datetime',
         // 'updated_at',
         // 'created_by',
         // 'updated_by',

@@ -28,7 +28,10 @@ Panel::begin(
 echo DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'id',
+        [
+            'label' => 'Номер заказа',
+            'value' => sprintf('%05d',$model->id),
+        ],
         'status',
         'name',
         'delivery_id',
