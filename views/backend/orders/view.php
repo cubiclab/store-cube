@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\DetailView;
+use yii\helpers\Html;
 use cubiclab\store\StoreCube;
 use cubiclab\admin\widgets\Panel;
 

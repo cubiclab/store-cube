@@ -2,6 +2,7 @@
 
 namespace cubiclab\store\controllers\backend;
 
+use cubiclab\store\models\DapTerms;
 use Yii;
 use cubiclab\store\models\Orders;
 use cubiclab\store\models\search\OrdersSearch;
@@ -78,8 +79,11 @@ class OrdersController extends Controller
      */
     public function actionView($id)
     {
+        $statusArray = Orders::getStatusArray();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'statusArray' => $statusArray,
         ]);
     }
 
@@ -92,11 +96,25 @@ class OrdersController extends Controller
     {
         $model = new Orders();
 
+        $dap = DapTerms::find()->where(['status'=>DapTerms::STATUS_ACTIVE])->all();
+        $deliveryArray = [];
+        $paymentArray = [];
+        foreach($dap as $row){
+            if($row->type == DapTerms::TYPE_DELIVERY){
+                $deliveryArray[$row->id] = $row->name;
+            } elseif ($row->type == DapTerms::TYPE_PAYMENT){
+                $paymentArray[$row->id] = $row->name;
+            }
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'paymentArray' => $paymentArray,
+                'deliveryArray' => $deliveryArray,
+                'statusArray' => Orders::getStatusArray(),
             ]);
         }
     }
@@ -111,11 +129,25 @@ class OrdersController extends Controller
     {
         $model = $this->findModel($id);
 
+        $dap = DapTerms::find()->where(['status'=>DapTerms::STATUS_ACTIVE])->all();
+        $deliveryArray = [];
+        $paymentArray = [];
+        foreach($dap as $row){
+            if($row->type == DapTerms::TYPE_DELIVERY){
+                $deliveryArray[$row->id] = $row->name;
+            } elseif ($row->type == DapTerms::TYPE_PAYMENT){
+                $paymentArray[$row->id] = $row->name;
+            }
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'paymentArray' => $paymentArray,
+                'deliveryArray' => $deliveryArray,
+                'statusArray' => Orders::getStatusArray(),
             ]);
         }
     }

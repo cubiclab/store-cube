@@ -18,6 +18,9 @@ echo $this->render(
     '_form',
     [
         'model' => $model,
+        'paymentArray' => $paymentArray,
+        'deliveryArray' => $deliveryArray,
+        'statusArray' => $statusArray,
     ]
 );
 
