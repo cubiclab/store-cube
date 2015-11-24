@@ -75,6 +75,8 @@ class OrdersSearch extends Orders
             ->andFilterWhere(['like', 'access_token', $this->access_token])
             ->andFilterWhere(['like', 'ip', $this->ip]);
 
+        $query->orderBy('id DESC');
+
         return $dataProvider;
     }
 }

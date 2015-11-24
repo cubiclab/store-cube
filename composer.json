@@ -20,6 +20,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "cubiclab/admin-cube": "*",
         "thiagotalma/yii2-jstree": "~1.0.0",
+        "mongosoft/yii2-upload-behavior": "*",
         "omnilight/yii2-shopping-cart": "*"
     },
     "autoload": {

@@ -4,6 +4,8 @@ namespace cubiclab\store\models;
 
 use Yii;
 use cubiclab\store\StoreCube;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%orders}}".
@@ -35,6 +37,8 @@ class Orders extends \yii\db\ActiveRecord
     const STATUS_RETURNED = 5;
     const STATUS_ERROR = 6;
     const STATUS_COMPLETED = 7;
+
+    public $products = [];
 
     /**
      * @inheritdoc
@@ -85,6 +89,18 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::className(),
+            ],
+            'blameableBehavior' => [
+                'class' => BlameableBehavior::className(),
+            ],
+        ];
+    }
+
     /** @return array Status array. */
     public static function getStatusArray(){
         return [
@@ -119,6 +135,14 @@ class Orders extends \yii\db\ActiveRecord
         return $this->hasOne(DapTerms::className(), ['id' => 'payment_id']);
     }
 
+    public function setProductsFromCart(){
+        $allcart = \Yii::$app->cart->getPositions();
+        foreach ($allcart as $pos) {
+            $this->products[$pos->id]['qty'] = $pos->getQuantity();
+            $this->products[$pos->id]['cost'] = $pos->getCost();
+        }
+    }
+
     /** @inheritdoc */
     public function beforeSave($insert){
         if (parent::beforeSave($insert)) {
@@ -126,8 +150,29 @@ class Orders extends \yii\db\ActiveRecord
                 if (!$this->status) {
                     $this->status = self::STATUS_BLANK;
                 }
-                $this->access_token = Yii::$app->security->generateRandomKey($length = 32);
+                $this->access_token = Yii::$app->security->generateRandomString($length = 32);
                 $this->ip = Yii::$app->request->userIP;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /** @inheritdoc */
+    public function afterSave($insert, $changedAttributes){
+        if (parent::beforeSave($insert, $changedAttributes)) {
+            //сохраним товары
+            if(!empty($this->products)){
+                foreach($this->products as $id => $product){
+                    $ordered_product = new OrdersProducts();
+                    $ordered_product->order_id = $this->id;
+                    $ordered_product->product_id = $id;
+                    $ordered_product->quantity = $product['qty'];
+                    //$ordered_product->options
+                    $ordered_product->price = $product['cost'];
+                    //$ordered_product->discount
+                    $ordered_product->save();
+                }
             }
             return true;
         }
