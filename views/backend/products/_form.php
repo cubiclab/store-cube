@@ -37,6 +37,8 @@ use kartik\file\FileInput;
 
                         <?= $form->field($product, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Название товара']) ?>
 
+                        <?= $form->field($product, 'slug')->textInput(['placeholder' => 'Адрес в строке (SLUG)']) ?>
+
                         <?= $form->field($product, 'short_desc')->textarea(['rows' => 3, 'placeholder' => 'Краткое описание товара']) ?>
 
                         <?= $form->field($product, 'description')->textarea(['rows' => 8, 'placeholder' => 'Полное описание товара']) ?>

@@ -54,7 +54,7 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     {
         return [
             [['name', 'article'], 'required'],
-            [['short_desc', 'description'], 'string'],
+            [['slug', 'short_desc', 'description'], 'string'],
             [['name'], 'string', 'max' => 64],
         ];
     }
