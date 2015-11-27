@@ -33,6 +33,14 @@ use kartik\file\FileInput;
 
                 <div class="row">
                     <div class="col-md-9">
+
+                        <?= $form->field($product, 'status')->dropDownList(
+                            $statusArray,
+                            [
+                                'prompt' => StoreCube::t('storecube', 'STATUS_PROMT')
+                            ]
+                        ) ?>
+
                         <?= $form->field($product, 'article')->textInput(['maxlength' => true, 'placeholder' => 'Артикул']) ?>
 
                         <?= $form->field($product, 'name')->textInput(['maxlength' => true, 'placeholder' => 'Название товара']) ?>

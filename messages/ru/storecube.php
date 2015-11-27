@@ -68,6 +68,9 @@ return [
     'STATUS_ACTIVE'            => 'Активно',
     'STATUS_DEFAULT_PRICE'     => 'Цена по умолчанию',
     'STATUS_ON_RBAC'           => 'Основана на правах доступа',
+    'STATUS_IN_STOCK'          => 'В наличии',
+    'STATUS_OUT_OF_STOCK'      => 'Нет в наличии',
+    'STATUS_DELETED'           => 'Удален',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Товарная позиция успешно создана.',
     'PRODUCT_CREATE_FAIL'       => 'Ошибка при создании товарной позиции.',

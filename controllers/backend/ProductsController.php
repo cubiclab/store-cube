@@ -63,10 +63,12 @@ class ProductsController extends Controller
     {
         $searchModel = new ProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $statusArray = Products::getStatusArray();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statusArray' => $statusArray,
         ]);
     }
 
@@ -115,6 +117,7 @@ class ProductsController extends Controller
             return $this->render('create', [
                 'product' => $product,
                 'product_image' => $product_image,
+                'statusArray' => Products::getStatusArray(),
             ]);
         }
     }
@@ -152,6 +155,7 @@ class ProductsController extends Controller
             return $this->render('update', [
                 'product' => $product,
                 'product_image' => $product_image,
+                'statusArray' => Products::getStatusArray(),
             ]);
         }
     }

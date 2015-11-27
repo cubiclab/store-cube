@@ -19,6 +19,7 @@ echo $this->render(
     [
         'product' => $product,
         'product_image' => $product_image,
+        'statusArray' => $statusArray,
     ]
 );
 

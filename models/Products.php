@@ -28,6 +28,12 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     const STATUS_INACTIVE = 0;
     /** Active status */
     const STATUS_ACTIVE = 1;
+    /** Active status */
+    const STATUS_IN_STOCK = 2;
+    /** Active status */
+    const STATUS_OUT_OF_STOCK = 3;
+    /** Active status */
+    const STATUS_DELETED = 4;
 
     private $_images = [];
 
@@ -54,6 +60,7 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     {
         return [
             [['name', 'article'], 'required'],
+            [['status'], 'integer'],
             [['slug', 'short_desc', 'description'], 'string'],
             [['name'], 'string', 'max' => 64],
         ];
@@ -71,6 +78,7 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
             'short_desc'    => StoreCube::t('storecube', 'ATTR_SHORT_DESC'),
             'description'   => StoreCube::t('storecube', 'ATTR_DESCRIPTION'),
             'slug'          => StoreCube::t('storecube', 'ATTR_SLUG'),
+            'status'        => StoreCube::t('storecube', 'ATTR_STATUS'),
         ];
     }
 
@@ -334,5 +342,23 @@ class Products extends \yii\db\ActiveRecord implements CartPositionInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /** @return array Status array. */
+    public static function getStatusArray(){
+        return [
+            self::STATUS_INACTIVE       => StoreCube::t('storecube', 'STATUS_INACTIVE'),
+            self::STATUS_ACTIVE         => StoreCube::t('storecube', 'STATUS_ACTIVE'),
+            //self::STATUS_IN_STOCK       => StoreCube::t('storecube', 'STATUS_IN_STOCK'),
+            //self::STATUS_OUT_OF_STOCK   => StoreCube::t('storecube', 'STATUS_OUT_OF_STOCK'),
+            //self::STATUS_DELETED        => StoreCube::t('storecube', 'STATUS_DELETED'),
+        ];
+    }
+
+    /** @return string Model status. */
+    public function getStatusName()
+    {
+        $states = self::getStatusArray();
+        return !empty($states[$this->status]) ? $states[$this->status] : $this->status;
     }
 }

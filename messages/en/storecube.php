@@ -65,6 +65,9 @@ return [
     'STATUS_ACTIVE'            => 'ACTIVE',
     'STATUS_DEFAULT_PRICE'     => 'Default Price',
     'STATUS_ON_RBAC'           => 'Based on RBAC',
+    'STATUS_IN_STOCK'          => 'In stock',
+    'STATUS_OUT_OF_STOCK'      => 'Out of stock',
+    'STATUS_DELETED'           => 'Deleted',
 
     'PRODUCT_CREATE_SUCCESS'    => 'Product successfully created.',
     'PRODUCT_CREATE_FAIL'       => 'Error creating product.',
